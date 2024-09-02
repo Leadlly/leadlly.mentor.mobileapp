@@ -1,37 +1,41 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import { store } from "@/services/redux/store";
+import Toast from "react-native-toast-message";
+import AppWrapper from "@/components/AppWrapper";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const [fontsLoaded, error] = useFonts({
+    "Mada-Black": require("@/assets/fonts/Mada-Black.ttf"),
+    "Mada-Bold": require("@/assets/fonts/Mada-Bold.ttf"),
+    "Mada-ExtraBold": require("@/assets/fonts/Mada-ExtraBold.ttf"),
+    "Mada-ExtraLight": require("@/assets/fonts/Mada-ExtraLight.ttf"),
+    "Mada-Light": require("@/assets/fonts/Mada-Light.ttf"),
+    "Mada-Medium": require("@/assets/fonts/Mada-Medium.ttf"),
+    "Mada-Regular": require("@/assets/fonts/Mada-Regular.ttf"),
+    "Mada-SemiBold": require("@/assets/fonts/Mada-SemiBold.ttf"),
   });
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    if (error) throw error;
 
-  if (!loaded) {
-    return null;
-  }
+    if (fontsLoaded) SplashScreen.hideAsync();
+  }, [fontsLoaded, error]);
 
+  const queryClient = new QueryClient();
+
+  if (!fontsLoaded && !error) return null;
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <AppWrapper />
+        <Toast />
+      </QueryClientProvider>
+    </Provider>
   );
 }
