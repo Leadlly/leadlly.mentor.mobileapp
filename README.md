@@ -1,50 +1,34 @@
-# Welcome to your Expo app 👋
+# Leadlly Mentor Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to the **Leadlly Mentor Mobile App** repository! This mobile application is part of the Leadlly ecosystem, designed specifically for mentors to connect with students, track progress, and offer personalized guidance. Built using **React Native** and **TypeScript**, this app provides a seamless experience for mentors to manage their sessions and students on the go.
 
-## Get started
+## 🚀 Features
 
-1. Install dependencies
+- **Student Management**: Easily manage assigned students and their progress.
+- **Session Scheduling**: Schedule and manage study sessions with students.
+- **Real-Time Notifications**: Stay updated with student queries, session reminders, and platform updates.
+- **Progress Tracking**: Monitor your students' academic progress, revision planner, and performance metrics.
+- **Mentor Dashboard**: Access key statistics about your mentoring performance and engagement.
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Tech Stack
 
-2. Start the app
+- **React-Native**: Cross-platform mobile app framework.
+- **TypeScript**: Strongly typed language for enhanced code quality.
+- **React Navigation**: Navigation solution for React Native apps.
+- **Firebase**: Push notifications and real-time data sync.
+- **Axios**: HTTP client for API requests.
+- **Google OAuth**: Google Authentication.
 
-   ```bash
-    npx expo start
-   ```
+## 🤝 Contributing
 
-In the output, you'll find options to open the app in a
+We welcome contributions to enhance the Leadlly Mentor Mobile App! To get started, check out our [Contribution Guide](./CONTRIBUTION.md).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📄 License
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+This project is licensed under the MIT License. See the [`LICENSE`](./LICENSE) file for more details.
 
-## Get a fresh project
+## 📞 Contact
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+For any questions or support, reach out to us at:
+- **Email**: [support@leadlly.in](mailto:support@leadlly.in)
+- **Website**: [Leadlly.in](https://leadlly.in)
