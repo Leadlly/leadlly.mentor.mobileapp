@@ -30,7 +30,7 @@ const Dashboard = () => {
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
       {/* Header */}
-      <View className="px-4 pt-0 pb-[16px] flex-row justify-between items-center">
+      {/* <View className="px-4 pt-0 pb-[16px] flex-row justify-between items-center">
         <Text className="text-[26px] font-bold">Dashboard</Text>
         <View className="flex-row gap-[16px] items-center">
           <View className='bg-[#832CFF14] py-[7px] px-[9px] rounded-[7.58px]'>
@@ -42,10 +42,10 @@ const Dashboard = () => {
             className="w-8 h-8 rounded-full"
           />
         </View>
-      </View>
+      </View> */}
 
       {/* Search Bar */}
-      <View className="px-3 pt-2 pb-[18.6px] flex-row justify-between gap-[10px] items-center">
+      <View className="px-3  pb-[10.6px] flex-row justify-between gap-[10px] items-center">
         <TextInput
           className="bg-gray-200 w-[85%] px-4 py-2 rounded-[8px]"
           placeholder="Search a Student"
@@ -54,7 +54,7 @@ const Dashboard = () => {
       </View>
 
       {/* Filter Tabs */}
-      <View className="flex-row px-4 py-2 gap-2 justify-between">
+      <View className="flex-row px-4 gap-2 justify-between">
       {['All', 'Excellent', 'Optimal', 'Inefficient'].map((tab) => (
         <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
           <Text
