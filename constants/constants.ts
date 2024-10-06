@@ -36,14 +36,14 @@ export const studentTabBarItems = [
     name: "tracker",
     title: "Tracker",
   },
-  {
-    name: "(chat)",
-    title: "Chat",
-  },
-  {
-    name: "(quizzes)",
-    title: "Quizzes",
-  },
+  // {
+  //   name: "(chat)",
+  //   title: "Chat",
+  // },
+  // {
+  //   name: "(quizzes)",
+  //   title: "Quizzes",
+  // },
   {
     name: "errorbook",
     title: "Errorbook",

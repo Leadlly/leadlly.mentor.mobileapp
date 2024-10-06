@@ -1,13 +1,18 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Link } from "expo-router";
 import { capitalizeFirstLetter } from "@/helpers/utils";
-import { useAppSelector } from "@/services/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/services/redux/hooks";
 import clsx from "clsx";
+import { FontAwesome } from "@expo/vector-icons";
 
-const UpgradeAndUserProfileButton = () => {
+const NotificationAndUserProfileButton = () => {
   const user = useAppSelector((state) => state.user.user);
   return (
     <View className="mr-4 flex-row items-center gap-4">
+      <View className='bg-[#832CFF14] py-[7px] px-[9px] rounded-[7.58px]'>
+          <FontAwesome name="bell-o" size={20} color="black" className='' />
+          </View>
+
       <Link href="/">
         <TouchableOpacity
           className={clsx(
@@ -36,4 +41,4 @@ const UpgradeAndUserProfileButton = () => {
   );
 };
 
-export default UpgradeAndUserProfileButton;
+export default NotificationAndUserProfileButton;

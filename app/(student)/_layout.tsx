@@ -3,7 +3,7 @@ import { studentTabBarItems } from "../../constants/constants";
 import { Text, TouchableOpacity } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import TabBar from "@/components/TabBar";
-import UpgradeAndUserProfileButton from "@/components/UpgradeAndUserProfileButton";
+import UpgradeAndUserProfileButton from "@/components/NotificationAndUserProfileButton";
 import StudentTabBar from "@/components/students/StudentTabBar";
 
 const TabsLayout = () => {
@@ -24,7 +24,7 @@ const TabsLayout = () => {
             headerRight: () => {
               switch (item.name) {
                 case "dashboard":
-                  return <UpgradeAndUserProfileButton />;
+                //   return <UpgradeAndUserProfileButton />;
                 default:
                   return null;
               }

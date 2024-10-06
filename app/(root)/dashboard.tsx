@@ -96,7 +96,7 @@ const Dashboard = () => {
                 <View className="items-center">
                   <Text>Level:</Text>
                   <View className="w-24 h-2 rounded-full bg-gray-300">
-                    <View className={`h-2 rounded-full ${item.progressColor}`} />
+                    <View className={`h-2 rounded-full ${item.color}`} />
                   </View>
                 </View>
               </View>
