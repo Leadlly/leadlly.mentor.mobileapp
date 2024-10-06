@@ -11,3 +11,14 @@ export const colors = Object.freeze({
   leadllyCyan: "#72EFDD",
   leadllyChartYellow: "#FFDA57",
 });
+
+export const tabBarItems = [
+  {
+    name: "dashboard",
+    title: "Dashboard",
+  },
+  {
+    name: "community",
+    title: "Community",
+  }
+];
