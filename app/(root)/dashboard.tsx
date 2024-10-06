@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TextInput, Image, FlatList,TouchableOpacity  } 
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
+import { Link } from 'expo-router';
 
 const students = [
   { name: 'Abhinav Mishra', class: 11, level: 'Excellent', color: 'bg-green-100' },
@@ -74,42 +75,37 @@ const Dashboard = () => {
         <Text className="text-lg font-semibold mb-2">All Students</Text>
         <Text className="text-[16px] font-medium text-[#9654F4] mb-2">See All</Text>
         </View>
-        
-          <FlatList
-            data={students}
-            keyExtractor={(item) => item.name}
-           renderItem={({ item }) => {
-          const { percentage, color } = getLevelPercentage(item.level);
 
-            return (
-              <View className={`p-4 mb-4 rounded-lg ${item.color}`}>
-                <View className="flex-row justify-between items-center">
-                  <View className="flex-row items-center">
-                    <Image
-                      source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
-                      className="w-12 h-12 rounded-full mr-4"
-                    />
-                    <View className='items-start flex-col'>
-                      <Text className="text-lg font-bold">{item.name}</Text>
-                      <Text className="text-gray-500">Class: {item.class}</Text>
-                      <View className="items-center flex-row gap-[10px]">
-                      <Text>Level:</Text>
-                      <View className="w-[50%] h-2 rounded-full bg-gray-300">
-                        <View
-                          className={`h-2  rounded-full ${color}`}
-                          style={{ width: `${percentage}%` }}
-                        />
-                      </View>
-                      </View>
-                    </View>
+        <FlatList
+          data={students}
+          keyExtractor={(item) => item.name}
+          renderItem={({ item }) => (
+            <Link href={`/(student)/dashboard?name=${item.name}`}>
+            <View className={`p-4 mb-4 rounded-lg ${item.color}`}>
+              <View className="flex-row justify-between items-center">
+                <View className="flex-row items-center">
+                  <Image
+                    source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+                    className="w-12 h-12 rounded-full mr-4"
+                  />
+                  <View>
+                    <Text className="text-lg font-bold">{item.name}</Text>
+                    <Text className="text-gray-500">Class: {item.class}</Text>
+                  </View>
+                </View>
+                <View className="items-center">
+                  <Text>Level:</Text>
+                  <View className="w-24 h-2 rounded-full bg-gray-300">
+                    <View className={`h-2 rounded-full ${item.progressColor}`} />
                   </View>
                 </View>
               </View>
-              );
-            }}
-            contentContainerStyle={{ paddingBottom: 16 }}
-            showsVerticalScrollIndicator={false}
-          />
+            </View>
+            </Link>
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+
       </View>
     </SafeAreaView>
   );

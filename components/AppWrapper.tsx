@@ -19,6 +19,7 @@ const AppWrapper = () => {
       <Stack screenOptions={{ headerShadowVisible: false }}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(root)" options={{ headerShown: false }} />
+        <Stack.Screen name="(student)" options={{ headerShown: false }} />
       </Stack>
       {/* <StatusBar style="auto" /> */}
     </>
