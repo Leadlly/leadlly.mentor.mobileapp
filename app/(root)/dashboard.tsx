@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TextInput, Image, FlatList,TouchableOpacity  } 
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
+import { Link } from 'expo-router';
 
 const students = [
   { name: 'Abhinav Mishra', class: 11, level: 'Excellent', color: 'bg-green-100', progressColor: 'bg-green-500' },
@@ -64,6 +65,7 @@ const Dashboard = () => {
           data={students}
           keyExtractor={(item) => item.name}
           renderItem={({ item }) => (
+            <Link href={`/(student)/dashboard?name=${item.name}`}>
             <View className={`p-4 mb-4 rounded-lg ${item.color}`}>
               <View className="flex-row justify-between items-center">
                 <View className="flex-row items-center">
@@ -84,6 +86,7 @@ const Dashboard = () => {
                 </View>
               </View>
             </View>
+            </Link>
           )}
           showsVerticalScrollIndicator={false}
         />
