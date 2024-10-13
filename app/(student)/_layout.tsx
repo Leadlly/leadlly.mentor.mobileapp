@@ -1,12 +1,15 @@
 import { Link, Tabs } from "expo-router";
 import { studentTabBarItems } from "../../constants/constants";
-import { Text, TouchableOpacity } from "react-native";
-import { Octicons } from "@expo/vector-icons";
-import TabBar from "@/components/TabBar";
-import UpgradeAndUserProfileButton from "@/components/NotificationAndUserProfileButton";
 import StudentTabBar from "@/components/students/StudentTabBar";
+import { useLocalSearchParams } from 'expo-router';
+import { TouchableOpacity } from "react-native";
+import { Octicons } from "@expo/vector-icons";
+import NotificationAndUserProfileButton from "@/components/NotificationAndUserProfileButton";
 
-const TabsLayout = () => {
+const TabsLayout = ({ navigation }:any) => {
+  const { name } = useLocalSearchParams();
+  const firstName = typeof name === 'string' ? name.split(" ")[0] : "";
+
   return (
     <Tabs tabBar={(props) => <StudentTabBar {...props} />}>
       {studentTabBarItems.map((item) => (
@@ -14,20 +17,26 @@ const TabsLayout = () => {
           key={item.name}
           name={item.name}
           options={{
-            title: item.title,
+            title: item.name === "dashboard" ? `Hi, I am ${firstName}` : item.title,
             headerShadowVisible: false,
             headerTitleStyle: {
               fontSize: 25,
               fontFamily: "Mada-SemiBold",
             },
             headerTitleAlign: "left",
+            headerLeft: () => (
+              <Link href="/(root)/dashboard" asChild>
+              <TouchableOpacity  style={{ paddingLeft: 15 }}>
+                <Octicons name="arrow-left" size={24} color="black" />
+              </TouchableOpacity>
+              </Link>
+              
+            ),
             headerRight: () => {
-              switch (item.name) {
-                case "dashboard":
-                //   return <UpgradeAndUserProfileButton />;
-                default:
-                  return null;
+              if (item.name === "dashboard") {
+                return <NotificationAndUserProfileButton/>
               }
+              return null;
             },
           }}
         />
