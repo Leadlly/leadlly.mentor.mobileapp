@@ -55,3 +55,13 @@ export interface MentorPersonalInfoProps {
   comparePassword(candidatePassword: string): Promise<boolean>;
   getToken(): Promise<string>;
 }
+export type TDayProps = {
+  date: string;
+  day: string;
+  continuousRevisionTopics: TRevisionProps[];
+  backRevisionTopics: TRevisionProps[];
+  questions: { [key: string]: any };
+  completedTopics: any[];
+  incompletedTopics: any[];
+  _id: string;
+};

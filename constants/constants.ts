@@ -10,6 +10,8 @@ export const colors = Object.freeze({
   leadllyRed: "#0fd679",
   leadllyCyan: "#72EFDD",
   leadllyChartYellow: "#FFDA57",
+  white: "#FFFFFF",  // Add this line
+  tabItemGrayLight: "#b3b3b3",  // Lighter version of tabItemG
 });
 
 export const tabBarItems = [
@@ -64,4 +66,18 @@ export const studentTabBarItems = [
   //   name: "study-room",
   //   title: "Study Room",
   // },
+];
+export const progressAnalyticsMenus = [
+  {
+    id: "weekly",
+    name: "weekly",
+  },
+  {
+    id: "monthly",
+    name: "monthly",
+  },
+  {
+    id: "overall",
+    name: "overall",
+  },
 ];
