@@ -1,3 +1,4 @@
+import { ImageSourcePropType, TextInputProps } from "react-native";
 export interface IAvatar {
   public_id: string;
   url: string;
@@ -65,3 +66,28 @@ export type TDayProps = {
   incompletedTopics: any[];
   _id: string;
 };
+
+export interface InputFieldProps extends TextInputProps {
+  label?: string;
+  icon?: any;
+  icon2?: any;
+  secureTextEntry?: boolean;
+  labelStyle?: string;
+  containerStyle?: string;
+  inputStyle?: string;
+  iconStyle?: string;
+  icon2Style?: string;
+  className?: string;
+  handlePress?: () => void;
+}
+export type FormType = UseFormReturn<
+  {
+    phoneNumber: string;
+    schedule: string;
+    gender?: "male" | "female" | "other" | undefined;
+    class?: "11" | "12" | undefined;
+    course?: "JEE" | "NEET" | undefined;
+  },
+  any,
+  undefined
+>;
