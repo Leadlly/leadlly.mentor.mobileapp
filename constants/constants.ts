@@ -31,7 +31,7 @@ export const studentTabBarItems = [
     title: "Dashboard",
   },
   {
-    name: "(planner)",
+    name: "planner",
     title: "Planner",
   },
   {
