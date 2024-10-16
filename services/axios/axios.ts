@@ -1,12 +1,16 @@
 import axios from "axios";
 import { RootState, store } from "../redux/store";
 
+
+const apiBaseUrl = "https://mentorapi.leadlly.in";
+
 const axiosClient = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_STUDENT_API_BASE_URL,
+  baseURL: apiBaseUrl,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
+  timeout: 10000,
 });
 
 axiosClient.interceptors.request.use(
