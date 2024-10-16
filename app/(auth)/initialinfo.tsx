@@ -21,9 +21,6 @@ const initialInfo = () => {
     defaultValues: {
       phoneNumber: "",
       gender: undefined,
-      class: undefined,
-      course: undefined,
-      schedule: "",
     },
   });
 
@@ -42,9 +39,14 @@ const initialInfo = () => {
   }
   const steps = [
     <PhoneNumberForm next={next} form={form} />,
-    <GenderForm next={next} form={form} />,
-    <ClassForm next={next} form={form} />,
-    <CourseForm next={next} form={form} />,
+    <GenderForm
+    next={next}
+    form={form}
+    saveInitialInfo={saveInitialInfo}
+    isSavingInitialInfo={isSavingInitialInfo}
+   />,
+    // <ClassForm next={next} form={form} />,
+    // <CourseForm next={next} form={form} />,
   ];
   return (
     <SafeAreaView className="flex-1 bg-white">

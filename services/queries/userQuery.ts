@@ -61,11 +61,14 @@ export const useSignUpUser = () => {
 };
 
 export const useLoginUser = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient();    
+     console.log("startlogin")
+
 
   return useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
       try {
+        console.log("here isnde login")
         const res: AxiosResponse = await axiosClient.post(
           `/api/auth/login`,
           data
@@ -232,7 +235,7 @@ export const useStudentPersonalInfo = () => {
   return useMutation({
     mutationFn: async (data: MentorPersonalInfoProps) => {
       try {
-        const res = await axiosClient.post("/api/user/profile/save", data);
+        const res = await axiosClient.post("/api/user/info/save", data);
 
         return res.data;
       } catch (error) {

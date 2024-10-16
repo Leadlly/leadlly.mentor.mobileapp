@@ -21,7 +21,7 @@ const loadUserFromStorage = async () => {
 
 const initialState: UserProps = {
   user: null,
-  loading: true,
+  loading: false,
 };
 
 export const userSlice = createSlice({
