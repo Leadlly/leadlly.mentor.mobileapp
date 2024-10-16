@@ -6,7 +6,6 @@ const WelcomeScreen = () => {
 
   if (!loading && !user) return <Redirect href={"/welcome"} />;
 
-  console.log(user?.about.gender, "gender")
   if (!loading && user && !user.about.gender)
     return <Redirect href={"/initialInfo"} />;
 

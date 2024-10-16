@@ -62,13 +62,10 @@ export const useSignUpUser = () => {
 
 export const useLoginUser = () => {
   const queryClient = useQueryClient();    
-     console.log("startlogin")
-
 
   return useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
       try {
-        console.log("here isnde login")
         const res: AxiosResponse = await axiosClient.post(
           `/api/auth/login`,
           data

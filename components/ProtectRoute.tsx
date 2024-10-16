@@ -9,7 +9,6 @@ const ProtectRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   const { user, loading } = useAppSelector((state) => state.user);
-  console.log(user, loading, "here is user")
 
   const isPublicPath =
     pathname === "/" ||
@@ -27,7 +26,6 @@ const ProtectRoute = ({ children }: { children: React.ReactNode }) => {
     } else if (user && !isPublicPath) {
       const hasSubmittedInitialInfo = !!user.about.gender;
 
-      console.log(hasSubmittedInitialInfo, "here iskey")
       if (!hasSubmittedInitialInfo && pathname !== "/initialInfo") {
         router.replace("/initialInfo");
       } else if (hasSubmittedInitialInfo && pathname === "/initialInfo") {
