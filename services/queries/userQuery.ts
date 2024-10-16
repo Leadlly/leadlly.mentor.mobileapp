@@ -172,29 +172,26 @@ export const useGetUser = () => {
   });
 };
 
-export const useSaveTodaysVibe = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (data: { todaysVibe: string }) => {
+export const useGetAllocatedStudents = (_id?: string) => {
+  return useQuery({
+    queryKey: ["allocatedStudents"],
+    queryFn: async () => {
       try {
-        const res = await axiosClient.post("/api/user/todaysVibe/save", data);
+                
+        let studentId = ''
+        if(_id) studentId = _id
 
-        return res.data;
+        const res: AxiosResponse = await axiosClient.get(`/api/user/getstudents?studentId=${studentId}`);
+        const responseData = res.data;
+        return responseData;
       } catch (error) {
+        console.log("here in error")
         if (axios.isAxiosError(error)) {
           throw new Error(`${error.response?.data.message}`);
         } else {
-          throw new Error(
-            "An unknown error while saving user's today's vibe!!"
-          );
+          throw new Error("An unknown error while fetching students data");
         }
       }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["user"],
-      });
     },
   });
 };

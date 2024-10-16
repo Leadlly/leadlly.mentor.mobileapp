@@ -5,10 +5,15 @@ import { useLocalSearchParams } from 'expo-router';
 import { TouchableOpacity } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import NotificationAndUserProfileButton from "@/components/NotificationAndUserProfileButton";
+import { useGetAllocatedStudents } from "@/services/queries/userQuery";
 
 const TabsLayout = ({ navigation }:any) => {
-  const { name } = useLocalSearchParams();
-  const firstName = typeof name === 'string' ? name.split(" ")[0] : "";
+  const { studentId } = useLocalSearchParams();
+
+  const student = Array.isArray(studentId) ? studentId[0] : studentId;
+
+  const { data, isError, isSuccess, error } =
+    useGetAllocatedStudents(student);
 
   return (
     <Tabs tabBar={(props) => <StudentTabBar {...props} />}>
@@ -17,7 +22,7 @@ const TabsLayout = ({ navigation }:any) => {
           key={item.name}
           name={item.name}
           options={{
-            title: item.name === "dashboard" ? `Hi, I am ${firstName}` : item.title,
+            title: item.name === "dashboard" ? `${data?.student?.firstname}` : item.title,
             headerShadowVisible: false,
             headerTitleStyle: {
               fontSize: 25,

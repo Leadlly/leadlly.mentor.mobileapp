@@ -7,6 +7,9 @@ import SemiRadialChart from '@/components/charts/SemiRadialChart';
 import { PlanItem } from '@/components/dashboardComponents/PlanItem';
 import { WeeklyMood } from '@/components/dashboardComponents/WeeklyMood';
 import { StreakTabs } from '@/components/dashboardComponents/StreakTabs';
+import { useLocalSearchParams } from 'expo-router';
+import { useGetAllocatedStudents } from '@/services/queries/userQuery';
+import { StudentDataProps } from '@/types/type';
 
 
 const planItems = [
@@ -18,6 +21,16 @@ const planItems = [
 ];
 
 const StudentDashboard = () => {
+
+  const { studentId } = useLocalSearchParams();
+  // const [student, setStudent] = useState<StudentDataProps>()
+  
+  const _id = Array.isArray(studentId) ? studentId[0] : studentId;
+
+  const { data, isError, isSuccess, error } =
+    useGetAllocatedStudents(_id);
+
+
   return (
     <ScrollView style={{ backgroundColor: '#fff', flex: 1, paddingHorizontal: 16 , marginBottom: 50}} className=''>
       {/* Today's Plan */}
