@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TextInput, Image, FlatList, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
-
-const students = [
-  { name: 'Abhinav Mishra', class: 11, level: 'Excellent', color: 'bg-green-100' },
-  { name: 'Roger Lubin', class: 12, level: 'Optimal', color: 'bg-yellow-100' },
-  { name: 'Charlie Rhiel Madsen', class: 12, level: 'Inefficient', color: 'bg-red-100' },
-  { name: 'Chance Stanton', class: 11, level: 'Excellent', color: 'bg-green-100' },
-  { name: 'Chance Bay', class: 11, level: 'Excellent', color: 'bg-green-100' },
-  { name: 'Chance Jhon', class: 11, level: 'Excellent', color: 'bg-green-100' },
-];
+import { useGetAllocatedStudents } from '@/services/queries/userQuery';
+import { StudentDataProps } from '@/types/type';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('All');
+  const [students, setStudents ] = useState<StudentDataProps[]>([])
 
+  const { data, isError, isSuccess, error } =
+  useGetAllocatedStudents();
+
+  useEffect(() => {
+    setStudents(data?.students)
+  })
 
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
@@ -52,20 +52,20 @@ const Dashboard = () => {
 
         <FlatList
           data={students}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item) => item._id}
           className='mb-[30px]'
           renderItem={({ item }) => (
-            <Link href={`/(student)/dashboard?name=${String(item.name)}`} asChild>
-              <TouchableOpacity className={`p-4 mb-4 rounded-lg ${item.color}`}>
+            <Link href={`/(student)/dashboard?studentId=${String(item._id)}`} asChild>
+              <TouchableOpacity className={`p-4 mb-4 rounded-lg bg-green-100'`}>
                 <View className="flex-row gap-[12px] items-center">
                   <Image
                     source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
                     className="w-12 h-12 rounded-full mr-4"
                   />
                   <View className="flex-col">
-                    <Text className="text-lg font-bold">{item.name}</Text>
-                    <Text className="text-gray-500">Class: {item.class}</Text>
-                    <Text className="text-gray-500">Level: {item.level}</Text>
+                    <Text className="text-lg font-bold">{item.firstname}</Text>
+                    <Text className="text-gray-500">Class: {item.academic.standard}</Text>
+                    <Text className="text-gray-500">Level: {item.details.level.number}</Text>
                   </View>
                   
                 </View>
