@@ -2,7 +2,7 @@ import axios from "axios";
 import { RootState, store } from "../redux/store";
 
 
-const apiBaseUrl = "https://mentorapi.leadlly.in";
+const apiBaseUrl = "https://sharp-ghost-informed.ngrok-free.app";
 
 const axiosClient = axios.create({
   baseURL: apiBaseUrl,
