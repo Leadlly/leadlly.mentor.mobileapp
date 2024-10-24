@@ -23,6 +23,7 @@ const planItems = [
 const StudentDashboard = () => {
 
   const { studentId } = useLocalSearchParams();
+  // console.log(studentId)
   // const [student, setStudent] = useState<StudentDataProps>()
   
   const _id = Array.isArray(studentId) ? studentId[0] : studentId;

@@ -14,8 +14,10 @@ const Dashboard = () => {
   useGetAllocatedStudents();
 
   useEffect(() => {
-    setStudents(data?.students)
-  })
+    if (isSuccess && data?.students) {
+      setStudents(data.students);
+    }
+  }, [data, isSuccess]);
 
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
