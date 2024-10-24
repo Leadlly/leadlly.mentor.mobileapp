@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import Plannercontent from "@/components/plannerComponent/plannercontent"; // Ensure PlannerContent is React Native compatible
 import { useGetPlanner } from "@/services/queries/plannerQuery";
+import { useLocalSearchParams } from "expo-router";
 
 interface Planner {
   days: any[];
@@ -16,29 +17,22 @@ interface Props {
 }
 
 export default function Page({ route }: Props) {
-  const { studentId } = route.params;
-  const [data, setData] = useState<Planner | null>(null);
+  const { studentId } = useLocalSearchParams();
+  console.log(studentId, "here");
+  const [planner, setPlanner] = useState<Planner | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
+  const { data, isError, isSuccess, error } = useGetPlanner(studentId);
+
+  console.log(data, "here is")
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await useGetPlanner(studentId);
-        if (result === null) {
-          setError("No planner exists for current time");
-        } else {
-          setData(result.data);
-        }
-      } catch (err) {
-        setError("An error occurred while fetching planner");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [studentId]);
+    if (isSuccess && data) {
+      setPlanner(data.data);
+      setLoading(false); // Stop loading when data is fetched successfully
+    } else if (isError) {
+      setLoading(false); // Stop loading in case of an error
+    }
+  }, [isSuccess, isError, data]);
 
   if (loading) {
     return (
@@ -51,7 +45,7 @@ export default function Page({ route }: Props) {
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.errorText}>{error?.message || "An error occurred"}</Text>
       </View>
     );
   }
@@ -61,8 +55,8 @@ export default function Page({ route }: Props) {
       <View style={styles.headerContainer}>
         <Text className="text-[#9654F4]">Weekly Planner</Text>
       </View>
-      {data && data.days ? (
-        <Plannercontent weekstopic={data.days} />
+      {planner && planner.days ? (
+        <Plannercontent weekstopic={planner?.days} />
       ) : (
         <Text>No planner exists for current period</Text>
       )}

@@ -72,7 +72,12 @@ const Plannercontent = ({ weekstopic }: { weekstopic: TweeksTopic[] }) => {
               </View>
             </View>
             <View className="bg-[#F5EFFF] h-16 w-full rounded-b-md border border-[#DFDBDB]">
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex items-center">
+              {/* Add contentContainerStyle prop to ScrollView */}
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ alignItems: "center" }} // Move layout styling here
+              >
                 {datecard.continuousRevisionTopics.map(
                   (topic, topicIndex) =>
                     visibleTopics[dateIndex].continuous[topicIndex] && (

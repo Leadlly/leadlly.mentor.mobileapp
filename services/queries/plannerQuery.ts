@@ -2,17 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import axiosClient from '../axios/axios';// Ensure this points to your axios instance
 
-export const useGetPlanner = (id?: string) => {
+export const useGetPlanner = (id = "66a47d7ebc9f330851c038e7") => {
   return useQuery({
-    queryKey: ['planner', id],
+    queryKey: ['plannerData'],
     queryFn: async () => {
       try {
-        let plannerId = '';
-        if (id) plannerId = id;
 
         // API call using axiosClient
         const res: AxiosResponse = await axiosClient.get(
-          `/api/student/planner/get/${plannerId}`
+          `/api/student/planner/get/${id}`
         );
 
         const responseData = res.data;
@@ -26,7 +24,5 @@ export const useGetPlanner = (id?: string) => {
         }
       }
     },
-    enabled: !!id, // Ensures query only runs if id is provided
-    retry: 2, // Retry twice if the query fails
   });
 };
