@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import DashboardIcon from "./icons/DashboardIcon";
-import ChatIcon from "./icons/ChatIcon";
+import CommunityIcon from "./icons/CommunityIcon";
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const tabs = [
     { id: "dashboard", icon: DashboardIcon, label: "Dashboard" },
-    { id: "community", icon: ChatIcon, label: "Community" },
+    { id: "community", icon: CommunityIcon, label: "Community" },
   ];
 
   const onPress = (itemId: any) => {
     setActiveTab(itemId);
-    const selectedRoute = state.routes.find((route: any) => route.name === itemId);
+    const selectedRoute = state.routes.find(
+      (route: any) => route.name === itemId
+    );
     if (selectedRoute) {
       const event = navigation.emit({
         type: "tabPress",
@@ -28,10 +30,13 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
   };
 
   return (
-
-    <View style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }} className="absolute bottom-0 w-full p-4 flex justify-center items-center">
-
-      <View className="bg-white flex flex-row items-center p-1 rounded-full shadow-sm space-x-3">
+    <View
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.3)"
+      }}
+      className="absolute bottom-0 w-full p-4 flex justify-center items-center"
+    >
+      <View  className="bg-white flex flex-row items-center p-1 rounded-full shadow-md space-x-3 shadow-black/90">
         {tabs.map((tab) => (
           <TouchableOpacity
             key={tab.id}
@@ -43,7 +48,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
             }`}
           >
             <tab.icon
-              fill={activeTab === tab.id ? "#FFFFFF" : "#8E8E93"}
+              stroke={activeTab === tab.id ? "#FFFFFF" : "#8E8E93"}
               width={20}
               height={20}
             />

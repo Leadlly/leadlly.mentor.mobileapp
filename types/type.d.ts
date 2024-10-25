@@ -144,16 +144,16 @@ export type StudentDataProps = {
     level: { number: number };
     points?: { number: number };
     streak?: { number: number; updatedAt: Date };
-    mood?: Array<{
+    mood: Array<{
       day: string;
-      emoji: string;
+      emoji: string |null;
     }>;
-    report?: {
-      dailyReport?: {
+    report: {
+      dailyReport: {
         date: Date;
         session: number;
         quiz: number;
-        overall?: number;
+        overall: number;
       };
     };
   };
@@ -196,3 +196,11 @@ export type StudentDataProps = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+export interface EfficiencyOption {
+  min?: number;
+  max?: number;
+  label: string;
+  labelClassName: string;
+  cardBackgroundColor: string;
+  textColor: string;
+}

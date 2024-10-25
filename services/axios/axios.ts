@@ -1,8 +1,7 @@
 import axios from "axios";
 import { RootState, store } from "../redux/store";
 
-
-const apiBaseUrl = "https://sharp-ghost-informed.ngrok-free.app";
+const apiBaseUrl = process.env.EXPO_PUBLIC_MENTOR_API_BASE_URL;
 
 const axiosClient = axios.create({
   baseURL: apiBaseUrl,
