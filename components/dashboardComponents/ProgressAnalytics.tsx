@@ -13,18 +13,18 @@ import {
 } from "../../services/queries/studentReportQuery";
 import TabNav from "../shared/TabNav";
 
-const ProgressAnalytics = () => {
+const ProgressAnalytics = ({ id }: { id: string }) => {
   const [activeTab, setActiveTab] = useState("weekly");
 
   const { data: weeklyReportData, isLoading: weeklyReportLoading } =
-    useGetWeeklyReport();
+    useGetWeeklyReport(id);
   const { data: monthlyReportData, isLoading: monthlyReportLoading } =
-    useGetMonthlyReport();
+    useGetMonthlyReport(id);
   const { data: overallReportData, isLoading: overallReportLoading } =
-    useGetOverallReport();
+    useGetOverallReport(id);
 
   return (
-    <View className="my-1.5 border border-input-border rounded-xl p-4">
+    <View className="mb-[20px] border border-input-border rounded-xl p-4">
       <View className="flex-row items-center justify-between">
         <Text className="text-[15px] font-mada-Bold leading-tight">
           Progress Analytics

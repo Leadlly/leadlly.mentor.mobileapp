@@ -18,19 +18,22 @@ const AppWrapper = () => {
   }, [dispatch]);
 
   return (
-    // <BottomSheetModalProvider>
-    //   <GestureHandlerRootView>
+    <GestureHandlerRootView>
+      <BottomSheetModalProvider>
         <ProtectRoute>
           <Stack screenOptions={{ headerShadowVisible: false }}>
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
             <Stack.Screen name="(root)" options={{ headerShown: false }} />
-            <Stack.Screen name="(student)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="student/[studentId]"
+              options={{ headerShown: false }}
+            />
           </Stack>
           {/* <StatusBar style="auto" /> */}
         </ProtectRoute>
-    //   </GestureHandlerRootView>
-    // </BottomSheetModalProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 };
 

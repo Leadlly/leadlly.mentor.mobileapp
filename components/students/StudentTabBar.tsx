@@ -33,12 +33,13 @@ const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
     index,
   }: ListRenderItemInfo<(typeof state.routes)[0]>) => {
     const { options } = descriptors[item.key];
-    const label =
-      options.tabBarLabel !== undefined
-        ? options.tabBarLabel
-        : options.title !== undefined
-          ? options.title
-          : item.name;
+    // const label =
+    //   options.tabBarLabel !== undefined
+    //     ? options.tabBarLabel
+    //     : options.title !== undefined
+    //       ? options.title
+    //       : item.name;
+    const label = item.name.charAt(0).toUpperCase() + item.name.slice(1);
 
     if (["_sitemap", "+not-found"].includes(item.name)) return null;
 

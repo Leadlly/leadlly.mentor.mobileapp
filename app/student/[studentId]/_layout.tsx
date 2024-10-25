@@ -1,19 +1,18 @@
 import { Link, Tabs } from "expo-router";
-import { studentTabBarItems } from "../../constants/constants";
+import { studentTabBarItems } from "../../../constants/constants";
 import StudentTabBar from "@/components/students/StudentTabBar";
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import NotificationAndUserProfileButton from "@/components/NotificationAndUserProfileButton";
 import { useGetAllocatedStudents } from "@/services/queries/userQuery";
 
-const TabsLayout = ({ navigation }:any) => {
+const TabsLayout = ({ navigation }: any) => {
   const { studentId } = useLocalSearchParams();
 
   const student = Array.isArray(studentId) ? studentId[0] : studentId;
 
-  const { data, isError, isSuccess, error } =
-    useGetAllocatedStudents(student);
+  const { data, isError, isSuccess, error } = useGetAllocatedStudents(student);
 
   return (
     <Tabs tabBar={(props) => <StudentTabBar {...props} />}>
@@ -22,7 +21,14 @@ const TabsLayout = ({ navigation }:any) => {
           key={item.name}
           name={item.name}
           options={{
-            title: item.name === "dashboard" ? `${data?.student?.firstname}` : item.title,
+            // title:
+            //   item.name === "dashboard"
+            //     ? `${data?.student?.firstname}`
+            //     : item.title,
+
+            title: data?.student?.firstname
+              ? `${data.student.firstname}`
+              : "Loading...",
             headerShadowVisible: false,
             headerTitleStyle: {
               fontSize: 25,
@@ -31,15 +37,14 @@ const TabsLayout = ({ navigation }:any) => {
             headerTitleAlign: "left",
             headerLeft: () => (
               <Link href="/(root)/dashboard" asChild>
-              <TouchableOpacity  style={{ paddingLeft: 15 }}>
-                <Octicons name="arrow-left" size={24} color="black" />
-              </TouchableOpacity>
+                <TouchableOpacity style={{ paddingLeft: 15 }}>
+                  <Octicons name="arrow-left" size={24} color="black" />
+                </TouchableOpacity>
               </Link>
-              
             ),
             headerRight: () => {
               if (item.name === "dashboard") {
-                return <NotificationAndUserProfileButton/>
+                return <NotificationAndUserProfileButton />;
               }
               return null;
             },

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
+import FilterIcon from "../icons/FilterIcon";
 
 const FilterModal = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -23,11 +24,9 @@ const FilterModal = () => {
       <TouchableOpacity
         onPress={handlePresentModalPress}
         style={{ padding: 10 }}
+        className="h-full flex-1"
       >
-        <Image
-          source={require("@/assets/images/filtericon.png")}
-          style={{ width: 20, height: 20 }}
-        />
+        <FilterIcon className="h-10 w-10" />
       </TouchableOpacity>
       <BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
         <BottomSheetView style={styles.contentContainer}>

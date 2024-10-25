@@ -32,11 +32,11 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
     <View
       style={{
-        backgroundColor: "rgba(255, 255, 255, 0.3)"
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
       }}
       className="absolute bottom-0 w-full p-4 flex justify-center items-center"
     >
-      <View  className="bg-white flex flex-row items-center p-1 rounded-full shadow-md space-x-3 shadow-black/90">
+      <View className="bg-white flex flex-row items-center p-1 rounded-full shadow-md space-x-3 shadow-black/90">
         {tabs.map((tab) => (
           <TouchableOpacity
             key={tab.id}

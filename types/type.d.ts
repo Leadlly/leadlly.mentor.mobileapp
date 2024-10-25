@@ -91,7 +91,12 @@ export type FormType = UseFormReturn<
   any,
   undefined
 >;
-
+export interface ISubject {
+  name: string;
+  overall_efficiency: number;
+  overall_progress: number;
+  total_questions_solved: { number: number; percentage: number };
+}
 export interface IAcademic {
   standard: number;
   competitiveExam?: string | null;
@@ -146,7 +151,7 @@ export type StudentDataProps = {
     streak?: { number: number; updatedAt: Date };
     mood: Array<{
       day: string;
-      emoji: string |null;
+      emoji: string | null;
     }>;
     report: {
       dailyReport: {

@@ -4,8 +4,8 @@ export const efficiencyOptions: EfficiencyOption[] = [
   {
     max: 30,
     label: ">> 30%",
-    labelClassName: "bg-[#fc8179] border-[#FC0F00]",
-    cardBackgroundColor: "bg-[#fc8179]",
+    labelClassName: "bg-[#ff9b99] border-[#FC0F00]",
+    cardBackgroundColor: "bg-[#ff9b99]",
     textColor: "text-[#FC0F00]",
   },
   {
