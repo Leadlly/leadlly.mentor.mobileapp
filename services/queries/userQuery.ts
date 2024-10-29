@@ -3,7 +3,6 @@ import axiosClient from "../axios/axios";
 import axios, { AxiosResponse } from "axios";
 import { MentorPersonalInfoProps } from "@/types/type";
 
-
 export const useGoogleSignIn = () => {
   const queryClient = useQueryClient();
 
@@ -61,7 +60,7 @@ export const useSignUpUser = () => {
 };
 
 export const useLoginUser = () => {
-  const queryClient = useQueryClient();    
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
@@ -174,18 +173,19 @@ export const useGetUser = () => {
 
 export const useGetAllocatedStudents = (_id?: string) => {
   return useQuery({
-    queryKey: ["allocatedStudents"],
+    queryKey: ["allocatedStudents", _id],
     queryFn: async () => {
       try {
-                
-        let studentId = ''
-        if(_id) studentId = _id
+        let studentId = "";
+        if (_id) studentId = _id;
 
-        const res: AxiosResponse = await axiosClient.get(`/api/user/getstudents?studentId=${studentId}`);
+        const res: AxiosResponse = await axiosClient.get(
+          `/api/user/getstudents?studentId=${studentId}`
+        );
         const responseData = res.data;
         return responseData;
       } catch (error) {
-        console.log("here in error")
+        console.log("here in error");
         if (axios.isAxiosError(error)) {
           throw new Error(`${error.response?.data.message}`);
         } else {

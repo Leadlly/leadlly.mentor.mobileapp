@@ -1,49 +1,30 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
-import Animated from "react-native-reanimated";
 import { colors } from "../../constants/constants";
-import clsx from "clsx";
 import SemiRadialChart from "../charts/SemiRadialChart";
 import TabNav from "../shared/TabNav";
+import { ISubject } from "@/types/type";
 
-// Mock userSubjects data
-const mockUserSubjects = [
-  {
-    name: "Mathematics",
-    overall_progress: 70,
-    overall_efficiency: 80,
-  },
-  {
-    name: "Science",
-    overall_progress: 85,
-    overall_efficiency: 75,
-  },
-  {
-    name: "History",
-    overall_progress: 60,
-    overall_efficiency: 65,
-  },
-];
 
-const SubjectProgress = () => {
-  const userSubjects = mockUserSubjects; // Use the mock data here
+interface SubjectProgressProps {
+  subjects?: ISubject[];
+}
 
-  const [activeSubject, setActiveSubject] = useState(userSubjects?.[0]?.name);
+const SubjectProgress: React.FC<SubjectProgressProps> = ({ subjects = [] }) => {
+  const [activeSubject, setActiveSubject] = useState(subjects[0]?.name || "");
 
-  const subject = userSubjects?.find(
-    (subject) => subject?.name === activeSubject
-  );
+  const subject = subjects.find((subject) => subject.name === activeSubject);
 
   return (
-    <View className="my-1.5 border border-input-border rounded-xl py-3">
+    <View className="mb-[20px] border border-input-border rounded-2xl py-3">
       <View className="flex-row items-center justify-between px-3">
         <Text className="text-[15px] font-mada-Bold leading-tight">
           Subject Progress
         </Text>
 
         <TabNav
-          items={userSubjects || []}
-          activeItem={activeSubject!}
+          items={subjects}
+          activeItem={activeSubject}
           setActiveItem={setActiveSubject}
           width={200}
           height={24}
@@ -53,13 +34,13 @@ const SubjectProgress = () => {
 
       <View className="mt-5 mb-3 flex-row justify-between items-center px-5">
         <SemiRadialChart
-          data={subject?.overall_progress!}
+          data={subject?.overall_progress || 0}
           color={colors.primary}
           bgColor="#f6f1fd"
           legendText="Revision Session"
         />
         <SemiRadialChart
-          data={subject?.overall_efficiency!}
+          data={subject?.overall_efficiency || 0}
           color={colors.leadllyCyan}
           bgColor="#f5fbfc"
           legendText="Efficiency"
