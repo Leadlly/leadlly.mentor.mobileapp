@@ -71,7 +71,7 @@ const StudentDashboard = () => {
       className=""
     >
       {/* Today's Plan */}
-      <TodaysPlan />
+      <TodaysPlan id={_id} />
 
       <DailyReport
         dailyreportquiz={
@@ -91,21 +91,12 @@ const StudentDashboard = () => {
       />
 
       {/* Weekly Mood */}
-      <View
-        style={{
-          padding: 16,
-          backgroundColor: "#fff",
-          borderRadius: 16,
-          borderColor: "#ddd",
-          borderWidth: 1,
-          marginBottom: 20,
-        }}
-      >
+      <View className="p-4 bg-white rounded-2xl border border-[#ddd] mb-5">
         <WeeklyMood mood={student.details.mood} />
       </View>
 
       {/* Streak Questions */}
-      <View
+      {/* <View
         style={{
           padding: 16,
           backgroundColor: "#fff",
@@ -122,7 +113,7 @@ const StudentDashboard = () => {
           <Text style={{ color: colors.primary }}>Total: 30</Text>
         </View>
         <StreakTabs />
-      </View>
+      </View> */}
 
       <SubjectProgress subjects={student.academic.subjects} />
       <ProgressAnalytics id={_id} />
