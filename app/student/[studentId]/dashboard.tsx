@@ -25,13 +25,14 @@ import LottieView from "lottie-react-native";
 const StudentDashboard = () => {
   const { studentId } = useLocalSearchParams();
   const loading_animation = useRef<LottieView>(null);
-  // console.log(studentId)
+  console.log(studentId,"this is studentid from dashboard")
   // const [student, setStudent] = useState<StudentDataProps>()
 
   const _id = Array.isArray(studentId) ? studentId[0] : studentId;
-
+  console.log(_id,"this is id from dashboard")
   const { data, isError, isSuccess, error, isLoading } =
     useGetAllocatedStudents(_id);
+    console.log(data,"this is data the inside dashbaord data")
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center bg-white min-h-screen flex">

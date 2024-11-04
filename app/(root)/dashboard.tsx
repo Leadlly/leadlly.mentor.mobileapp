@@ -27,6 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (isSuccess && data?.students) {
       setStudents(data.students);
+      console.log(data.students ,"this is maindashboards student data more like a list ")
     }
   }, [data, isSuccess]);
 
