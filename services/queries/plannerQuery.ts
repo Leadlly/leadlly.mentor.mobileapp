@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import axiosClient from '../axios/axios';// Ensure this points to your axios instance
 
-export const useGetPlanner = (id = "66a47d7ebc9f330851c038e7") => {
+export const useGetPlanner = (id:string) => {
   return useQuery({
     queryKey: ['plannerData'],
     queryFn: async () => {

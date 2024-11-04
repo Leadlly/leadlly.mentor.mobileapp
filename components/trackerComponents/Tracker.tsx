@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-nati
 import { getTracker } from "@/services/queries/trackerQuery";
 import { useQuery } from "@tanstack/react-query";
 
-const Tracker = ({ studentId, studentSubjects }) => {
+const Tracker = ({ studentId, studentSubjects }:any) => {
   const [activeSubject, setActiveSubject] = useState(studentSubjects[0]?.name); // Set the initial active subject
 
   // Fetch tracker data based on the active subject
