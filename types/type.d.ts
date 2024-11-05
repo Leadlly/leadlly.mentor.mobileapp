@@ -151,6 +151,7 @@ export type StudentDataProps = {
     streak?: { number: number; updatedAt: Date };
     mood: Array<{
       day: string;
+      date: string;
       emoji: string | null;
     }>;
     report: {
@@ -231,4 +232,29 @@ export type Chapter = {
     date?: Date;
     efficiency?: number;
   }[];
+};
+
+export type DataProps = {
+  data: PlannerDataProps;
+};
+export type PlannerDataProps = {
+  student: string;
+  startDate: string;
+  endDate: string;
+  days: TDayProps[];
+  createdAt: string;
+};
+export type TRevisionProps = {
+  _id: string;
+  user: string;
+  tag: string;
+  topic: Topic;
+  chapter: Chapter;
+  subject: ISubject;
+  standard: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  efficiency?: any;
+  quizScores?: number[];
+  weeklyTestScore?: number;
 };

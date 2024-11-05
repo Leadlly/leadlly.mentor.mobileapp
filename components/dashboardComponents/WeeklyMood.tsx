@@ -26,13 +26,8 @@ export const WeeklyMood = ({ mood }: MoodData) => {
   };
 
   const { startDate, endDate } = getWeekDates();
-  const moodColors = {
-    sad: "#D50000",
-    unhappy: "#FFA500",
-    neutral: "#FFDD00",
-    smiling: "#00C853",
-    laughing: "#FFD700",
-  };
+  console.log(mood);
+
   return (
     <View className="p-1 bg-white rounded-lg">
       <View className="flex text-[16px] mb-[28px] font-normal text-black flex-row justify-center items-center ">
@@ -51,8 +46,17 @@ export const WeeklyMood = ({ mood }: MoodData) => {
               {mood.day.slice(0, 3)}
             </Text>
             <View
-              style={{ backgroundColor: mood.color }}
-              className="p-1 rounded-[5px] flex items-center justify-center"
+              style={{
+                backgroundColor:
+                  moodEmojis[
+                    (mood.emoji ?? "neutral") as keyof typeof moodEmojis
+                  ].color + "80",
+                borderColor:
+                  moodEmojis[
+                    (mood.emoji ?? "neutral") as keyof typeof moodEmojis
+                  ].color + "CC",
+              }}
+              className="p-[5px] rounded-[5px] flex items-center justify-center border"
             >
               <Image
                 source={
@@ -65,7 +69,7 @@ export const WeeklyMood = ({ mood }: MoodData) => {
                     (mood.emoji ?? "neutral") as keyof typeof moodEmojis
                   ].mood
                 }
-                className="w-4 h-4 mb-1"
+                className="w-4 h-4 "
               />
             </View>
           </View>

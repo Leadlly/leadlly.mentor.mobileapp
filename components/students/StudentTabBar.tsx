@@ -15,9 +15,20 @@ import PlannerIcon from "../icons/PlannerIcon";
 import TrackerIcon from "../icons/TrackerIcon";
 import ErrorBookIcon from "../icons/ErrorBookIcon";
 import { colors } from "../../constants/constants";
+import { useAppSelector } from "../../services/redux/hooks";
+import { useLocalSearchParams } from "expo-router";
 
-const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+const StudentTabBar = ({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) => {
   const [visibleItems, setVisibleItems] = useState<ViewToken[]>([]);
+
+  const { studentId } = useLocalSearchParams();
+
+  const student = Array.isArray(studentId) ? studentId[0] : studentId;
+
   const flatListRef = useRef<FlatList<any>>(null);
   
   // Get the studentId from the current route
@@ -49,6 +60,7 @@ const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
           ...item.params,
           studentId: studentId // Ensure studentId is passed
         });
+
       }
 
       const firstVisibleItem = visibleItems[0]?.index;
@@ -85,6 +97,9 @@ const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
       dashboard: (props: SvgProps) => <DashboardIcon {...props} />,
       planner: (props: SvgProps) => <PlannerIcon {...props} />,
       tracker: (props: SvgProps) => <TrackerIcon {...props} />,
+
+      //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
+      //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
       errorbook: (props: SvgProps) => <ErrorBookIcon {...props} />,
     };
 

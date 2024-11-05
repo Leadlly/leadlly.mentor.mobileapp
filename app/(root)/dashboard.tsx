@@ -16,6 +16,7 @@ import { StudentDataProps } from "@/types/type";
 import StudentCard from "@/components/dashboardComponents/StudentCard";
 import FilterModal from "@/components/dashboardComponents/FilterModal";
 import Feather from "@expo/vector-icons/Feather";
+import { formatDate } from "@/helpers/utils";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("All");
@@ -26,8 +27,24 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isSuccess && data?.students) {
-      setStudents(data.students);
-      console.log(data.students ,"this is maindashboards student data more like a list ")
+      
+      setStudents(
+        data.students.sort((a: StudentDataProps, b: StudentDataProps) => {
+          const aEfficiency =
+            a.details.report.dailyReport.date &&
+            formatDate(new Date(a.details.report.dailyReport.date)) ===
+              formatDate(new Date(Date.now()))
+              ? a.details.report.dailyReport.overall
+              : 0;
+          const bEfficiency =
+            b.details.report.dailyReport.date &&
+            formatDate(new Date(b.details.report.dailyReport.date)) ===
+              formatDate(new Date(Date.now()))
+              ? b.details.report.dailyReport.overall
+              : 0;
+          return bEfficiency - aEfficiency;
+        })
+      );
     }
   }, [data, isSuccess]);
 
