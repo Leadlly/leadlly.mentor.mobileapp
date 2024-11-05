@@ -3,28 +3,24 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import Plannercontent from "@/components/plannerComponent/plannercontent"; // Ensure PlannerContent is React Native compatible
 import { useGetPlanner } from "@/services/queries/plannerQuery";
 import { useLocalSearchParams } from "expo-router";
+import { useRoute } from "@react-navigation/native";
 
 interface Planner {
   days: any[];
 }
 
-interface Props {
-  route: {
-    params: {
-      studentId: string;
-    };
-  };
-}
-
-export default function Page({ route }: Props) {
+const Planner = () => {
+  const route = useRoute();
+  console.log(route.name);
   const { studentId } = useLocalSearchParams();
-  console.log(studentId, "here");
+  const _id = Array.isArray(studentId) ? studentId[0] : studentId;
   const [planner, setPlanner] = useState<Planner | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  console.log(_id, studentId);
 
-  const { data, isError, isSuccess, error } = useGetPlanner(studentId);
+  const { data, isError, isSuccess, error } = useGetPlanner(_id);
 
-  console.log(data, "here is")
+  console.log(data, "here is");
   useEffect(() => {
     if (isSuccess && data) {
       setPlanner(data.data);
@@ -45,7 +41,9 @@ export default function Page({ route }: Props) {
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.errorText}>{error?.message || "An error occurred"}</Text>
+        <Text style={styles.errorText}>
+          {error?.message || "An error occurred"}
+        </Text>
       </View>
     );
   }
@@ -62,7 +60,7 @@ export default function Page({ route }: Props) {
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -96,3 +94,5 @@ const styles = StyleSheet.create({
     color: "red",
   },
 });
+
+export default Planner;

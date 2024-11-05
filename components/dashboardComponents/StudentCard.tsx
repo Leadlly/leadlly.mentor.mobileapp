@@ -13,7 +13,6 @@ const StudentCard = ({ studentInfo }: { studentInfo: StudentDataProps }) => {
   const currentDateMoodIndex = studentCurrentMood?.findIndex(
     (mood) => mood?.date === today
   );
-  console.log(currentDateMoodIndex, today,studentCurrentMood);
   const moodOption =
     studentCurrentMood &&
     studentCurrentMood.length &&

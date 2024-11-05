@@ -31,8 +31,10 @@ const TodaysPlan = ({ id }: { id: string }) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const { data, isSuccess, isLoading, isError } = useGetPlanner(id);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     if (data && data?.data?.days.length > 0 && isSuccess) {
       const today = data.data.days.find(
         (item) =>
@@ -46,6 +48,7 @@ const TodaysPlan = ({ id }: { id: string }) => {
         ]);
       }
     }
+    setLoading(false);
   }, [data, isSuccess]);
 
   const handlePresentModalPress = useCallback(() => {
@@ -75,7 +78,7 @@ const TodaysPlan = ({ id }: { id: string }) => {
         />
       ));
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return (
       <View className="my-5 p-4 bg-[#f5eafe] rounded-2xl justify-center items-center h-40">
         <ActivityIndicator size="large" color="#6200ee" />

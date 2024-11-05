@@ -30,6 +30,7 @@ const StudentDashboard = () => {
 
   const _id = Array.isArray(studentId) ? studentId[0] : studentId;
 
+  console.log(studentId);
   const { data, isError, isSuccess, error, isLoading } =
     useGetAllocatedStudents(_id);
   if (isLoading) {

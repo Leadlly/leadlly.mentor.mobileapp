@@ -1,4 +1,4 @@
-  {
+{
   "name": "leadlly.mentor.mobileapp",
   "main": "expo-router/entry",
   "version": "1.0.0",
@@ -45,6 +45,7 @@
     "lucide-react-native": "^0.453.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
+    "react-content-loader": "^7.0.2",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.53.0",
     "react-native": "0.74.5",
