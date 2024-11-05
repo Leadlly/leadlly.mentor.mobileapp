@@ -11,7 +11,7 @@ const StudentCard = ({ studentInfo }: { studentInfo: StudentDataProps }) => {
   const today = new Date().toISOString().split("T")[0];
 
   const currentDateMoodIndex = studentCurrentMood?.findIndex(
-    (mood) => mood.day === today
+    (mood) => mood?.date === today
   );
   const moodOption =
     studentCurrentMood &&
@@ -38,10 +38,7 @@ const StudentCard = ({ studentInfo }: { studentInfo: StudentDataProps }) => {
     ]
   );
   return (
-    <Link
-      href={`/student/${String(studentInfo._id)}/dashboard`}
-      asChild
-    >
+    <Link href={`/student/${String(studentInfo._id)}/dashboard`} asChild>
       <TouchableOpacity
         className={`p-4 mb-2 rounded-xl ${cardBackgroundColor} `}
       >

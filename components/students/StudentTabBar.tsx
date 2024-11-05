@@ -22,10 +22,18 @@ import LibraryIcon from "../icons/LibraryIcon";
 import StudyRoomIcon from "../icons/StudyRoomIcon";
 import { colors } from "../../constants/constants";
 import { useAppSelector } from "../../services/redux/hooks";
+import { useLocalSearchParams } from "expo-router";
 
-const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+const StudentTabBar = ({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) => {
   const [visibleItems, setVisibleItems] = useState<ViewToken[]>([]);
 
+  const { studentId } = useLocalSearchParams();
+
+  const student = Array.isArray(studentId) ? studentId[0] : studentId;
   const flatListRef = useRef<FlatList<any>>(null);
 
   const renderItem = ({
@@ -53,7 +61,7 @@ const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
       });
 
       if (!isFocused && !event.defaultPrevented) {
-        navigation.navigate(item.name, item.params);
+        navigation.navigate(item.name, { studentId: student , ...item.params});
       }
 
       const firstVisibleItem = visibleItems[0]?.index;
@@ -92,8 +100,8 @@ const StudentTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
       dashboard: (props: SvgProps) => <DashboardIcon {...props} />,
       planner: (props: SvgProps) => <PlannerIcon {...props} />,
       tracker: (props: SvgProps) => <TrackerIcon {...props} />,
-    //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
-    //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
+      //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
+      //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
       errorbook: (props: SvgProps) => <ErrorBookIcon {...props} />,
       // "growth-meter": (props: SvgProps) => <GrowthMeterIcon {...props} />,
       // workshops: (props: SvgProps) => <WorkshopsIcon {...props} />,
