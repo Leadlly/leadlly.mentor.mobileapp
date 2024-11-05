@@ -16,7 +16,7 @@ import TrackerIcon from "../icons/TrackerIcon";
 import ErrorBookIcon from "../icons/ErrorBookIcon";
 import { colors } from "../../constants/constants";
 import { useAppSelector } from "../../services/redux/hooks";
-import { useLocalSearchParams } from "expo-router";
+
 
 const StudentTabBar = ({
   state,
@@ -30,10 +30,7 @@ const StudentTabBar = ({
   const student = Array.isArray(studentId) ? studentId[0] : studentId;
 
   const flatListRef = useRef<FlatList<any>>(null);
-  
-  // Get the studentId from the current route
-  const { studentId } = useLocalSearchParams();
-  
+
   console.log("TabBar studentId:", studentId); // Debug log
 
   const renderItem = ({
