@@ -11,7 +11,7 @@ export default {
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
-      backgroundColor: "#6224e899",
+      backgroundColor: "#6224e8",
     },
     ios: {
       supportsTablet: true,
@@ -19,6 +19,7 @@ export default {
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#6224e8",
       },
       package: "com.leadllymentor.app",
       // googleServicesFile: process.env.GOOGLE_SERVICES_JSON,

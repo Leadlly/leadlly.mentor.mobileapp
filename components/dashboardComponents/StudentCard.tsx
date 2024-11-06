@@ -5,7 +5,7 @@ import { StudentDataProps } from "@/types/type";
 import { moodEmojis, neutralEmoji } from "@/constants/moodEmojis";
 import { getBackgroundColor } from "@/constants/efficiency";
 import { formatDate } from "@/helpers/utils";
-
+import * as Progress from "react-native-progress";
 const StudentCard = ({ studentInfo }: { studentInfo: StudentDataProps }) => {
   const studentCurrentMood = studentInfo?.details?.mood;
   const today = new Date().toISOString().split("T")[0];
@@ -13,6 +13,7 @@ const StudentCard = ({ studentInfo }: { studentInfo: StudentDataProps }) => {
   const currentDateMoodIndex = studentCurrentMood?.findIndex(
     (mood) => mood?.date === today
   );
+  console.log(currentDateMoodIndex)
   const moodOption =
     studentCurrentMood &&
     studentCurrentMood.length &&
@@ -68,9 +69,17 @@ const StudentCard = ({ studentInfo }: { studentInfo: StudentDataProps }) => {
             <Text className="text-gray-700">
               Class: {studentInfo.academic.standard}
             </Text>
-            <Text className="text-gray-700">
-              Level: {studentInfo.details.level.number}
-            </Text>
+            <View className="flex-row items-baseline gap-2  ">
+              <Text className="text-gray-700">Level:</Text>
+              <Progress.Bar
+                animated
+                color="#339900"
+                borderWidth={0}
+                unfilledColor="#D3D3D3"
+                progress={studentInfo.details.level.number * 0.3 ?? 0}
+                width={130}
+              />
+            </View>
           </View>
         </View>
       </TouchableOpacity>

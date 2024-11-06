@@ -3,34 +3,21 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import Plannercontent from "@/components/plannerComponent/plannercontent"; // Ensure PlannerContent is React Native compatible
 import { useGetPlanner } from "@/services/queries/plannerQuery";
 import { useLocalSearchParams } from "expo-router";
-import { useRoute } from "@react-navigation/native";
+import { getMonthDate } from "@/helpers/utils";
+import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Planner {
   days: any[];
 }
 
 const Planner = () => {
-  const route = useRoute();
-  console.log(route.name);
   const { studentId } = useLocalSearchParams();
   const _id = Array.isArray(studentId) ? studentId[0] : studentId;
-  const [planner, setPlanner] = useState<Planner | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  console.log(_id, studentId);
 
-  const { data, isError, isSuccess, error } = useGetPlanner(_id);
+  const { data, isError, isSuccess, error, isLoading } = useGetPlanner(_id);
 
-  console.log(data, "here is");
-  useEffect(() => {
-    if (isSuccess && data) {
-      setPlanner(data.data);
-      setLoading(false); // Stop loading when data is fetched successfully
-    } else if (isError) {
-      setLoading(false); // Stop loading in case of an error
-    }
-  }, [isSuccess, isError, data]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -50,11 +37,29 @@ const Planner = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text className="text-[#9654F4]">Weekly Planner</Text>
+      <View
+        style={styles.headerContainer}
+        className="  p-2  rounded-lg justify-center mb-3 px-4"
+      >
+        <View>
+          <Text className="text-primary font-mada-semibold text-xl ">
+            Weekly Plan
+          </Text>
+          <Text className="text-base leading-tight font-mada-semibold ">
+            {data?.data && data?.data.startDate && data?.data.endDate ? (
+              <>
+                {getMonthDate(new Date(data?.data?.startDate!))} -{" "}
+                {getMonthDate(new Date(data?.data?.endDate!))}
+              </>
+            ) : null}
+          </Text>
+        </View>
+        <TouchableOpacity activeOpacity={0.7}>
+          <AntDesign name="calendar" size={26} color="black" />
+        </TouchableOpacity>
       </View>
-      {planner && planner.days ? (
-        <Plannercontent weekstopic={planner?.days} />
+      {data?.data && data?.data.days ? (
+        <Plannercontent weekstopic={data?.data?.days} />
       ) : (
         <Text>No planner exists for current period</Text>
       )}
@@ -68,16 +73,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: 20,
     paddingVertical: 10,
+    backgroundColor: "white",
   },
   headerContainer: {
     backgroundColor: "#E8DAFE",
-    padding: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-    borderRadius: 7,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
