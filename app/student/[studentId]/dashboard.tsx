@@ -21,18 +21,16 @@ import { formatDate } from "@/helpers/utils";
 import SubjectProgress from "@/components/dashboardComponents/SubjectProgress";
 import ProgressAnalytics from "@/components/dashboardComponents/ProgressAnalytics";
 import LottieView from "lottie-react-native";
+import { useStudentData } from "@/helpers/Hooks/StudentDataHook";
 
 const StudentDashboard = () => {
-  const { studentId } = useLocalSearchParams();
   const loading_animation = useRef<LottieView>(null);
   console.log(studentId,"this is studentid from dashboard")
   // const [student, setStudent] = useState<StudentDataProps>()
 
-  const _id = Array.isArray(studentId) ? studentId[0] : studentId;
 
-  const { data, isError, isSuccess, error, isLoading } =
-    useGetAllocatedStudents(_id);
-    console.log(data,"this is data the inside dashbaord data")
+  const { student, isError, isSuccess, error, isLoading } = useStudentData();
+ 
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center bg-white min-h-screen flex">
@@ -52,7 +50,6 @@ const StudentDashboard = () => {
       </View>
     );
   }
-  const student: StudentDataProps = data.student;
 
   if (isError) {
     return (
@@ -72,7 +69,7 @@ const StudentDashboard = () => {
       className=""
     >
       {/* Today's Plan */}
-      <TodaysPlan id={_id} />
+      <TodaysPlan id={student._id} />
 
       <DailyReport
         dailyreportquiz={
@@ -117,7 +114,7 @@ const StudentDashboard = () => {
       </View> */}
 
       <SubjectProgress subjects={student.academic.subjects} />
-      <ProgressAnalytics id={_id} />
+      <ProgressAnalytics id={student._id} />
     </ScrollView>
   );
 };

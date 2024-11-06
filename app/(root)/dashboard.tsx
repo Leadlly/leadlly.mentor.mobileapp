@@ -17,36 +17,43 @@ import StudentCard from "@/components/dashboardComponents/StudentCard";
 import FilterModal from "@/components/dashboardComponents/FilterModal";
 import Feather from "@expo/vector-icons/Feather";
 import { formatDate } from "@/helpers/utils";
+import StudentCardLoader from "@/components/LoadingComponents/StudentCardLoader";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("All");
-  const [students, setStudents] = useState<StudentDataProps[]>([]);
 
   const { data, isError, isSuccess, error, isLoading } =
     useGetAllocatedStudents();
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isSuccess && data?.students) {
-      
-      setStudents(
-        data.students.sort((a: StudentDataProps, b: StudentDataProps) => {
-          const aEfficiency =
-            a.details.report.dailyReport.date &&
-            formatDate(new Date(a.details.report.dailyReport.date)) ===
-              formatDate(new Date(Date.now()))
-              ? a.details.report.dailyReport.overall
-              : 0;
-          const bEfficiency =
-            b.details.report.dailyReport.date &&
-            formatDate(new Date(b.details.report.dailyReport.date)) ===
-              formatDate(new Date(Date.now()))
-              ? b.details.report.dailyReport.overall
-              : 0;
-          return bEfficiency - aEfficiency;
-        })
-      );
-    }
-  }, [data, isSuccess]);
+
+  // const [students, setStudents] = useState<StudentDataProps[]>([]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   if (isSuccess && data?.students) {
+  //     // setStudents(data.students);
+
+  //     setStudents(
+  //       data.students.sort((a: StudentDataProps, b: StudentDataProps) => {
+  //         const aEfficiency =
+  //           a.details.report.dailyReport.date &&
+  //           formatDate(new Date(a.details.report.dailyReport.date)) ===
+  //             formatDate(new Date(Date.now()))
+  //             ? a.details.report.dailyReport.overall
+  //             : 0;
+  //         const bEfficiency =
+  //           b.details.report.dailyReport.date &&
+  //           formatDate(new Date(b.details.report.dailyReport.date)) ===
+  //             formatDate(new Date(Date.now()))
+  //             ? b.details.report.dailyReport.overall
+  //             : 0;
+  //         return bEfficiency - aEfficiency;
+  //       })
+  //     );
+  //   }
+  //   setLoading(false);
+  // }, [data, isSuccess]);
+
 
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
@@ -84,15 +91,17 @@ const Dashboard = () => {
             See All
           </Text>
         </View>
-        {isLoading ? (
-          <View className="h-[50vh]">
-            <ActivityIndicator size="large" color="#9654F4" />
-          </View>
+        {isLoading || loading ? (
+          <ScrollView className="w-full flex">
+            {[...Array(7)].map((_, index) => (
+              <StudentCardLoader key={index} />
+            ))}
+          </ScrollView>
         ) : (
           <FlatList
-            data={students}
+            data={data.students}
             keyExtractor={(item) => item._id}
-            className="mb-[30px]"
+            className="mb-[50px] "
             renderItem={({ item }) => <StudentCard studentInfo={item} />}
             showsVerticalScrollIndicator={false}
           />
