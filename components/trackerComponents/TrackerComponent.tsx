@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { ISubject, TTrackerProps } from '@/types/type';
-import ChapterOverviewTable from './ChapterOverviewTable';
+import ChapterRevisionDateTable from './ChapterOverviewTable';
 import SubjectOverview from './SubjectOveview';
 
 const Loader = () => {
@@ -32,7 +32,7 @@ const TrackerComponent = ({
   activeSubject,
   userSubjects,
 }: {
-  trackerData: TTrackerProps[];
+  trackerData: { data: TTrackerProps[] } | null; // Adjust type if trackerData is nested
   userSubjects: ISubject[] | undefined;
   activeSubject: string;
 }) => {
@@ -43,14 +43,14 @@ const TrackerComponent = ({
     console.log('userSubjects:', userSubjects);
   }, [trackerData, activeSubject, userSubjects]);
 
-  if (!trackerData) {
+  if (!trackerData || !trackerData.data) {
     console.log('No tracker data, showing loader');
     return <Loader />;
   }
 
-  const filteredSubject = userSubjects?.filter(
+  const filteredSubject = userSubjects?.find(
     (subject) => subject.name === activeSubject
-  )[0];
+  );
   
   console.log('Filtered subject:', filteredSubject);
 
@@ -62,18 +62,14 @@ const TrackerComponent = ({
       backgroundColor: 'white',
       padding: 16
     }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
-        Hello from Tracker Component
-      </Text>
-      
       {filteredSubject && (
         <SubjectOverview subject={filteredSubject} />
       )}
 
-      {trackerData && trackerData.length > 0 ? (
+      {trackerData.data.length > 0 ? (
         <View style={{ gap: 16 }}>
-          {trackerData.map((item) => (
-            <ChapterOverviewTable key={item._id} chapterData={item} />
+          {trackerData.data.map((item) => (
+            <ChapterRevisionDateTable key={item._id} item={item} />
           ))}
         </View>
       ) : (

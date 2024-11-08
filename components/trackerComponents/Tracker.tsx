@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView,Pressable } from "react-native";
 import { getTracker } from "@/services/queries/trackerQuery";
-import { useQuery } from "@tanstack/react-query";
+import TrackerComponent from "./TrackerComponent";
+import clsx from "clsx";
+
 
 const Tracker = ({ studentId, studentSubjects }:any) => {
   const [activeSubject, setActiveSubject] = useState(studentSubjects[0]?.name); // Set the initial active subject
@@ -16,38 +18,52 @@ const Tracker = ({ studentId, studentSubjects }:any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {studentSubjects.map((subject) => (
-          <TouchableOpacity
-            key={subject._id}
-            onPress={() => handleSubjectChange(subject.name)}
-            style={[
-              styles.tab,
-              activeSubject === subject.name && styles.activeTab
-            ]}
-          >
-            <Text style={[
-              styles.tabText,
-              activeSubject === subject.name && styles.activeTabText
-            ]}>
-              {subject.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
+    <View className="flex-1 bg-white p-4">
+      
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        className="mb-5"
+      >
+        <View className="flex-row gap-2">
+          {studentSubjects?.map((subject) => (
+            <Pressable
+              key={subject.name}
+              onPress={() => handleSubjectChange(subject.name)}
+              className={clsx(
+                "py-2 px-3 border rounded-lg",  // Reduced padding
+                subject.name === activeSubject
+                  ? "border-primary bg-primary/10"
+                  : "border-tab-item-gray bg-transparent"
+              )}
+            >
+              <Text
+                className={clsx(
+                  "capitalize text-sm font-mada-semibold",
+                  subject.name === activeSubject
+                    ? "text-primary"
+                    : "text-tab-item-gray"
+                )}
+              >
+                {subject.name}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
       </ScrollView>
 
-      {isLoading ? (
-        <Text>Loading tracker data...</Text>
-      ) : isError ? (
-        <Text style={styles.errorText}>{error.message || "Error loading tracker data."}</Text>
-      ) : (
-        <View>
-          {/* Render the fetched tracker data here */}
-          <Text>Tracker Data for {activeSubject}:</Text>
-          <Text>{JSON.stringify(data)}</Text>
-        </View>
-      )}
+
+      <View className="border-b mb-4" />
+
+      <ScrollView className="flex-1 mb-4 pr-3">
+        {activeSubject && (
+          <TrackerComponent
+            activeSubject={activeSubject}
+            trackerData={data}
+            userSubjects={studentSubjects}
+          />
+        )}
+      </ScrollView>
     </View>
   );
 };

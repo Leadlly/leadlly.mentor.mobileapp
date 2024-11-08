@@ -25,10 +25,6 @@ import { useStudentData } from "@/helpers/Hooks/StudentDataHook";
 
 const StudentDashboard = () => {
   const loading_animation = useRef<LottieView>(null);
-  console.log(studentId,"this is studentid from dashboard")
-  // const [student, setStudent] = useState<StudentDataProps>()
-
-
   const { student, isError, isSuccess, error, isLoading } = useStudentData();
  
   if (isLoading) {
