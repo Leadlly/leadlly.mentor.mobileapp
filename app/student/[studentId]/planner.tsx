@@ -6,6 +6,7 @@ import { useLocalSearchParams } from "expo-router";
 import { getMonthDate } from "@/helpers/utils";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { colors } from "@/constants/constants";
 
 interface Planner {
   days: any[];
@@ -20,7 +21,7 @@ const Planner = () => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
   },
   errorText: {
     color: "red",
