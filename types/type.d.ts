@@ -211,6 +211,29 @@ export interface EfficiencyOption {
   textColor: string;
 }
 
+export type TTrackerProps = {
+  _id: string;
+  user: string;
+  subject: string;
+  chapter: Chapter;
+  topics: Topic[];
+};
+export type Chapter = {
+  name: string;
+  plannerFrequency?: number;
+  level?: string;
+  overall_efficiency?: number;
+  overall_progress?: number;
+  total_questions_solved: {
+    number?: number;
+    percentage?: number;
+  };
+  studiedAt: {
+    date?: Date;
+    efficiency?: number;
+  }[];
+};
+
 export type DataProps = {
   data: PlannerDataProps;
 };

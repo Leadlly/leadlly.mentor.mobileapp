@@ -6,23 +6,17 @@ import {
   FlatList,
   ListRenderItemInfo,
   ViewToken,
-  StyleSheet,
 } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useLocalSearchParams } from "expo-router";
 import DashboardIcon from "../icons/DashboardIcon";
 import { SvgProps } from "react-native-svg";
 import PlannerIcon from "../icons/PlannerIcon";
 import TrackerIcon from "../icons/TrackerIcon";
-import ChatIcon from "../icons/ChatIcon";
-import QuizzesIcon from "../icons/QuizzesIcon";
 import ErrorBookIcon from "../icons/ErrorBookIcon";
-import GrowthMeterIcon from "../icons/GrowthMeterIcon";
-import WorkshopsIcon from "../icons/WorkshopsIcon";
-import LibraryIcon from "../icons/LibraryIcon";
-import StudyRoomIcon from "../icons/StudyRoomIcon";
 import { colors } from "../../constants/constants";
 import { useAppSelector } from "../../services/redux/hooks";
-import { useLocalSearchParams } from "expo-router";
+
 
 const StudentTabBar = ({
   state,
@@ -34,19 +28,16 @@ const StudentTabBar = ({
   const { studentId } = useLocalSearchParams();
 
   const student = Array.isArray(studentId) ? studentId[0] : studentId;
+
   const flatListRef = useRef<FlatList<any>>(null);
+
+  console.log("TabBar studentId:", studentId); // Debug log
 
   const renderItem = ({
     item,
     index,
   }: ListRenderItemInfo<(typeof state.routes)[0]>) => {
     const { options } = descriptors[item.key];
-    // const label =
-    //   options.tabBarLabel !== undefined
-    //     ? options.tabBarLabel
-    //     : options.title !== undefined
-    //       ? options.title
-    //       : item.name;
     const label = item.name.charAt(0).toUpperCase() + item.name.slice(1);
 
     if (["_sitemap", "+not-found"].includes(item.name)) return null;
@@ -61,7 +52,12 @@ const StudentTabBar = ({
       });
 
       if (!isFocused && !event.defaultPrevented) {
-        navigation.navigate(item.name, { studentId: student , ...item.params});
+        // Pass the studentId when navigating
+        navigation.navigate(item.name, {
+          ...item.params,
+          studentId: studentId // Ensure studentId is passed
+        });
+
       }
 
       const firstVisibleItem = visibleItems[0]?.index;
@@ -77,7 +73,6 @@ const StudentTabBar = ({
         lastVisibleItem === state.routes.length - 1 &&
         flatListRef.current
       ) {
-        // Scroll to the right if the first visible item is clicked and the last item is fully visible
         const nextIndex = lastVisibleItem + 1;
         if (nextIndex < state.routes.length) {
           flatListRef.current.scrollToIndex({
@@ -95,18 +90,14 @@ const StudentTabBar = ({
       });
     };
 
-    // TabBar icons
     const icons = {
       dashboard: (props: SvgProps) => <DashboardIcon {...props} />,
       planner: (props: SvgProps) => <PlannerIcon {...props} />,
       tracker: (props: SvgProps) => <TrackerIcon {...props} />,
+
       //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
       //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
       errorbook: (props: SvgProps) => <ErrorBookIcon {...props} />,
-      // "growth-meter": (props: SvgProps) => <GrowthMeterIcon {...props} />,
-      // workshops: (props: SvgProps) => <WorkshopsIcon {...props} />,
-      // library: (props: SvgProps) => <LibraryIcon {...props} />,
-      // "study-room": (props: SvgProps) => <StudyRoomIcon {...props} />,
     };
 
     return (
@@ -121,9 +112,7 @@ const StudentTabBar = ({
         className="flex-1 justify-center items-center gap-y-2 w-[72px]"
       >
         {icons[item.name as keyof typeof icons]({
-          ...(item.name === "growth-meter"
-            ? { fill: isFocused ? colors.primary : colors.tabItemGray }
-            : { stroke: isFocused ? colors.primary : colors.tabItemGray }),
+          stroke: isFocused ? colors.primary : colors.tabItemGray,
         })}
         <Text
           className={`font-mada-medium text-xs leading-tight ${

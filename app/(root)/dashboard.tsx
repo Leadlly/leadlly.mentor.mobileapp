@@ -26,6 +26,7 @@ const Dashboard = () => {
     useGetAllocatedStudents();
   const [loading, setLoading] = useState(false);
 
+
   // const [students, setStudents] = useState<StudentDataProps[]>([]);
   // useEffect(() => {
   //   setLoading(true);
@@ -52,6 +53,7 @@ const Dashboard = () => {
   //   }
   //   setLoading(false);
   // }, [data, isSuccess]);
+
 
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">

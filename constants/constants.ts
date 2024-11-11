@@ -81,3 +81,10 @@ export const progressAnalyticsMenus = [
     name: "overall",
   },
 ];
+
+export const calculateProgress = (overallProgress: number) => {
+  if (typeof overallProgress !== "number" || isNaN(overallProgress)) {
+    return 0; // Default to 0 if the value is invalid
+  }
+  return Math.min(Math.max(overallProgress / 100, 0), 1);
+};
