@@ -20,7 +20,7 @@ const SubjectOverview = ({ subject }: { subject: ISubject | undefined }) => {
             {subject ? (
               <Progress.Bar
                 progress={calculateProgress(subject?.overall_progress!)}
-                width={widthPercentage(75)}
+                width={widthPercentage(73)}
                 unfilledColor="#fff"
                 borderWidth={0}
                 color={colors.primary}
@@ -40,7 +40,7 @@ const SubjectOverview = ({ subject }: { subject: ISubject | undefined }) => {
             {subject ? (
               <Progress.Bar
                 progress={calculateProgress(subject?.overall_efficiency!)}
-                width={widthPercentage(75)}
+                width={widthPercentage(73)}
                 unfilledColor="#fff"
                 borderWidth={0}
                 color={colors.leadllyCyan}
@@ -62,7 +62,7 @@ const SubjectOverview = ({ subject }: { subject: ISubject | undefined }) => {
                 progress={calculateProgress(
                   subject?.total_questions_solved.percentage!
                 )}
-                width={widthPercentage(75)}
+                width={widthPercentage(73)}
                 unfilledColor="#fff"
                 borderWidth={0}
                 color={colors.leadllyChartYellow}

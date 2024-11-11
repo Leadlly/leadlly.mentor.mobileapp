@@ -30,7 +30,7 @@ const ChapterTracker = ({ item }: { item: TTrackerProps }) => {
               ellipsizeMode="tail"
               className="basis-[60%] capitalize text-lg font-mada-semibold"
             >
-              hello
+             {item.chapter.name}
             </Text>
             <View className="flex-1 items-end justify-end">
               <TouchableOpacity
@@ -44,6 +44,7 @@ const ChapterTracker = ({ item }: { item: TTrackerProps }) => {
             </View>
           </View>
 
+          <TrackerGraph item={item} />
 
           <View className="border border-input-border rounded-lg h-56 overflow-hidden">
             <View className="flex-row items-center justify-between gap-x-1 p-3 bg-primary/10 rounded-t-lg">

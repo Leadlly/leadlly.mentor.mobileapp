@@ -24,7 +24,7 @@ const ChapterRevisionDateTable = ({
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            hello
+           {item.chapter.name}
           </Text>
         </View>
       </View>

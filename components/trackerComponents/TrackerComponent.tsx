@@ -56,18 +56,13 @@ const TrackerComponent = ({
 
   return (
     <View style={{ 
-      flex: 1,
-      flexDirection: 'column',
-      gap: 24,
-      backgroundColor: 'white',
-      padding: 16
     }}>
       {filteredSubject && (
         <SubjectOverview subject={filteredSubject} />
       )}
 
       {trackerData.data.length > 0 ? (
-        <View style={{ gap: 16 }}>
+        <View style={{}}>
           {trackerData.data.map((item) => (
             <ChapterRevisionDateTable key={item._id} item={item} />
           ))}
@@ -77,7 +72,7 @@ const TrackerComponent = ({
           width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 20
+          
         }}>
           <Text style={{ 
             fontSize: 18,

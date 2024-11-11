@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView,Pressable } from "
 import { getTracker } from "@/services/queries/trackerQuery";
 import TrackerComponent from "./TrackerComponent";
 import clsx from "clsx";
+import { useRouter } from "expo-router";
 
 
 const Tracker = ({ studentId, studentSubjects }:any) => {
+  const router = useRouter()
   const [activeSubject, setActiveSubject] = useState(studentSubjects[0]?.name); // Set the initial active subject
 
   // Fetch tracker data based on the active subject
@@ -13,49 +15,41 @@ const Tracker = ({ studentId, studentSubjects }:any) => {
   console.log(data,"trackerdata")
 
   // Handle subject tab change
-  const handleSubjectChange = (subject) => {
+  const handleSubjectChange = (subject:string) => {
     setActiveSubject(subject);
   };
 
   return (
     <View className="flex-1 bg-white p-4">
       
-      <ScrollView 
-        horizontal 
-        showsHorizontalScrollIndicator={false}
-        className="mb-5"
-      >
-        <View className="flex-row gap-2">
-          {studentSubjects?.map((subject) => (
-            <Pressable
-              key={subject.name}
-              onPress={() => handleSubjectChange(subject.name)}
+      <View className="flex-row items-center justify-between mb-5">
+        {studentSubjects?.map((subject:any) => (
+          <Pressable
+            key={subject.name}
+            onPress={() => handleSubjectChange(subject.name)}
+            className={clsx(
+              "h-9 px-4 border items-center justify-center rounded-lg",
+              subject.name === activeSubject
+                ? "border-primary bg-primary/10"
+                : "border-tab-item-gray bg-transparent"
+            )}
+          >
+            <Text
               className={clsx(
-                "py-2 px-3 border rounded-lg",  // Reduced padding
+                "capitalize text-sm font-mada-semibold",
                 subject.name === activeSubject
-                  ? "border-primary bg-primary/10"
-                  : "border-tab-item-gray bg-transparent"
+                  ? "text-primary"
+                  : "text-tab-item-gray"
               )}
             >
-              <Text
-                className={clsx(
-                  "capitalize text-sm font-mada-semibold",
-                  subject.name === activeSubject
-                    ? "text-primary"
-                    : "text-tab-item-gray"
-                )}
-              >
-                {subject.name}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-      </ScrollView>
+              {subject.name}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
 
-
-      <View className="border-b mb-4" />
-
-      <ScrollView className="flex-1 mb-4 pr-3">
+      <ScrollView className="flex-1 mb-4 " showsVerticalScrollIndicator={false} 
+        contentContainerStyle={{ paddingRight: 0 }}>
         {activeSubject && (
           <TrackerComponent
             activeSubject={activeSubject}
@@ -68,29 +62,5 @@ const Tracker = ({ studentId, studentSubjects }:any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  tab: {
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 5,
-    backgroundColor: '#E8DAFE',
-  },
-  activeTab: {
-    backgroundColor: '#56249E',
-  },
-  tabText: {
-    color: 'black',
-  },
-  activeTabText: {
-    color: 'white',
-  },
-  errorText: {
-    color: "red",
-  },
-});
 
 export default Tracker;
