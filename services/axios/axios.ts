@@ -1,7 +1,7 @@
 import axios from "axios";
 import { RootState, store } from "../redux/store";
 
-const apiBaseUrl = process.env.EXPO_PUBLIC_MENTOR_API_BASE_URL;
+const apiBaseUrl = "https://mentorapi.leadlly.in";
 
 const axiosClient = axios.create({
   baseURL: apiBaseUrl,

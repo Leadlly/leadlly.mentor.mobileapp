@@ -14,6 +14,7 @@ import { SvgProps } from "react-native-svg";
 import PlannerIcon from "../icons/PlannerIcon";
 import TrackerIcon from "../icons/TrackerIcon";
 import ErrorBookIcon from "../icons/ErrorBookIcon";
+import ChatIcon from "../icons/ChatIcon";
 import { colors } from "../../constants/constants";
 import { useAppSelector } from "../../services/redux/hooks";
 
@@ -94,34 +95,36 @@ const StudentTabBar = ({
       dashboard: (props: SvgProps) => <DashboardIcon {...props} />,
       planner: (props: SvgProps) => <PlannerIcon {...props} />,
       tracker: (props: SvgProps) => <TrackerIcon {...props} />,
-
-      //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
+      "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
       //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
       errorbook: (props: SvgProps) => <ErrorBookIcon {...props} />,
     };
+    const IconComponent = icons[item.name as keyof typeof icons];
 
     return (
       <TouchableOpacity
-        key={item.key}
-        accessibilityRole="button"
-        accessibilityState={isFocused ? { selected: true } : {}}
-        accessibilityLabel={options.tabBarAccessibilityLabel}
-        testID={options.tabBarTestID}
-        onPress={onPress}
-        onLongPress={onLongPress}
-        className="flex-1 justify-center items-center gap-y-2 w-[72px]"
-      >
-        {icons[item.name as keyof typeof icons]({
-          stroke: isFocused ? colors.primary : colors.tabItemGray,
-        })}
-        <Text
-          className={`font-mada-medium text-xs leading-tight ${
-            isFocused ? "text-primary" : "text-tab-item-gray"
-          }`}
-        >
-          {label?.toString()}
-        </Text>
-      </TouchableOpacity>
+    key={item.key}
+    accessibilityRole="button"
+    accessibilityState={isFocused ? { selected: true } : {}}
+    accessibilityLabel={options.tabBarAccessibilityLabel}
+    testID={options.tabBarTestID}
+    onPress={onPress}
+    onLongPress={onLongPress}
+    className="flex-1 justify-center items-center gap-y-2 w-[72px]"
+  >
+    {IconComponent ? (
+      IconComponent({ stroke: isFocused ? colors.primary : colors.tabItemGray })
+    ) : (
+      <Text>Error: Icon not found</Text> // Fallback in case of an undefined icon
+    )}
+    <Text
+      className={`font-mada-medium text-xs leading-tight ${
+        isFocused ? "text-primary" : "text-tab-item-gray"
+      }`}
+    >
+      {label?.toString()}
+    </Text>
+  </TouchableOpacity>
     );
   };
 
