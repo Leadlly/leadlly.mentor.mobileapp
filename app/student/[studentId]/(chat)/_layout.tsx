@@ -25,7 +25,7 @@ const ChatLayout = () => {
         },
       }}
     >
-      <MaterialTobTabs.Screen name="meetings" options={{ title: "Meetings" }} />
+      <MaterialTobTabs.Screen name="chat" options={{ title: "chat" }} />
       <MaterialTobTabs.Screen
         name="requestMeeting"
         options={{ title: "Request Meeting" }}
