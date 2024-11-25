@@ -24,13 +24,22 @@ const ProtectRoute = ({ children }: { children: React.ReactNode }) => {
     if (!user && !isPublicPath) {
       router.replace("/welcome");
     } else if (user && !isPublicPath) {
-      const hasSubmittedInitialInfo = !!user.about.gender;
+      const hasSubmittedInitialInfo = !!user.about?.gender;
 
       if (!hasSubmittedInitialInfo && pathname !== "/initialInfo") {
         router.replace("/initialInfo");
       } else if (hasSubmittedInitialInfo && pathname === "/initialInfo") {
-        router.replace("/dashboard");
-      } 
+        router.replace("/status");
+      } else if (hasSubmittedInitialInfo && pathname !== "/initialInfo") {
+        const isVerified = user.status === "Verified";
+        if (!isVerified && pathname !== "/status") {
+          router.replace("/status");
+        }
+
+        if (isVerified && pathname === "/status") { 
+          router.replace("/dashboard");
+        }
+      }
     } else if (user && isPublicPath) {
       router.replace("/dashboard");
     }

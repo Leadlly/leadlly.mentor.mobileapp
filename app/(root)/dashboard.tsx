@@ -1,37 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   TextInput,
-  Image,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
 import { useGetAllocatedStudents } from "@/services/queries/userQuery";
-import { StudentDataProps } from "@/types/type";
 import StudentCard from "@/components/dashboardComponents/StudentCard";
 import FilterModal from "@/components/dashboardComponents/FilterModal";
 import Feather from "@expo/vector-icons/Feather";
-import { formatDate } from "@/helpers/utils";
 import StudentCardLoader from "@/components/LoadingComponents/StudentCardLoader";
+import NoDataFoundLottie from "@/components/shared/NoDataFoundLottie";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("All");
 
-  const { data, isError, isSuccess, error, isLoading } =
-    useGetAllocatedStudents();
+  const { data, isError, isLoading } = useGetAllocatedStudents();
   const [loading, setLoading] = useState(false);
-
+  console.log(data)
 
   // const [students, setStudents] = useState<StudentDataProps[]>([]);
   // useEffect(() => {
   //   setLoading(true);
   //   if (isSuccess && data?.students) {
-  //     // setStudents(data.students);
+      // setStudents(data.students);
 
   //     setStudents(
   //       data.students.sort((a: StudentDataProps, b: StudentDataProps) => {
@@ -53,8 +48,7 @@ const Dashboard = () => {
   //   }
   //   setLoading(false);
   // }, [data, isSuccess]);
-
-
+  
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
       {/* Search Bar */}
@@ -97,6 +91,8 @@ const Dashboard = () => {
               <StudentCardLoader key={index} />
             ))}
           </ScrollView>
+        ) : isError || !data?.students || data.students.length === 0 ? (
+          <NoDataFoundLottie message={isError ? "Error fetching students" : "No students found"} />
         ) : (
           <FlatList
             data={data.students}
