@@ -138,7 +138,7 @@ const Meetings = () => {
         <ScheduleMeetingButton studentId={student} />
       </View>
 
-      <ScrollView className="flex-1 p-4 ">
+      <ScrollView className="flex-1 px-4 pt-4 pb-20 mb-20 ">
         {isLoading ? (
           <View className="flex-1 items-center justify-center">
             <ActivityIndicator size="large" color={colors.primary} />
