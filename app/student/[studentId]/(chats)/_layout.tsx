@@ -1,15 +1,18 @@
 import { MaterialTobTabs } from "@/components/shared/MaterialTobTabsConfig";
 import { colors } from "@/constants/constants";
+import { useLocalSearchParams } from "expo-router";
 
 const ChatLayout = () => {
+  // Retrieve the studentId from search parameters
+  const { studentId } = useLocalSearchParams();
+
   return (
     <MaterialTobTabs
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: "#000000",
+        tabBarInactiveTintColor: "#6c757d",
         tabBarLabelStyle: {
-          fontSize: 15,
-          paddingVertical: 2,
+          fontSize: 16,
           fontFamily: "Mada-SemiBold",
           textTransform: "capitalize",
         },
@@ -21,11 +24,26 @@ const ChatLayout = () => {
         tabBarStyle: {
           borderBottomColor: colors.inputBorder,
           borderBottomWidth: 1,
+          backgroundColor: "#fff",
         },
       }}
     >
-      <MaterialTobTabs.Screen name="chat" options={{ title: "Chat" }} />
-      <MaterialTobTabs.Screen name="meetings" options={{ title: "Meetings" }} />
+      {/* Chat Screen Tab */}
+      <MaterialTobTabs.Screen
+        key={`chat-${studentId}`}
+        
+        name="chat"
+        options={{ title: "Chat" }}
+        initialParams={{ studentId }}
+      />  
+
+      {/* Meetings Screen Tab */}
+      <MaterialTobTabs.Screen
+        key={`meetings-${studentId}`}
+        name="meetings"
+        options={{ title: "Meetings" }}
+        initialParams={{ studentId }}
+      />
     </MaterialTobTabs>
   );
 };

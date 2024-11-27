@@ -38,12 +38,14 @@ const StudentTabBar = ({
     index,
   }: ListRenderItemInfo<(typeof state.routes)[0]>) => {
     const { options } = descriptors[item.key];
-    const label = item.name.charAt(0).toUpperCase() + item.name.slice(1);
+    const label =
+      options.headerTitle !== undefined
+        ? options.headerTitle
+        : item.name.charAt(0).toUpperCase() + item.name.slice(1);
 
     if (["_sitemap", "+not-found"].includes(item.name)) return null;
 
     const isFocused = state.index === index;
-    
 
     const onPress = () => {
       const event = navigation.emit({

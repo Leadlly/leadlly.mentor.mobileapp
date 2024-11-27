@@ -42,7 +42,6 @@ const GenderForm = ({
         gender: data.gender,
       });
 
-      console.log(saveInitialInfoResponse)
       if (user) {
         dispatch(setUser({ 
           ...user, 

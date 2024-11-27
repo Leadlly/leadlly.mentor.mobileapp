@@ -1,66 +1,126 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/constants";
 
-const Chat = () => {
-  const [message, setMessage] = useState("");
+const ChatScreen = () => {
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hello!", sender: "tutor" },
-    { id: 2, text: "Hi there! How can I help you today?", sender: "student" },
+    {
+      text: "Hello! Dhruv Rawal, I have a doubt.",
+      isOutgoing: false,
+      time: "9:41 AM",
+      sender: "You",
+    },
+    {
+      text: "Hey! John Musk, we can address this during the meeting, we can maintain focus on the topic at hand and work towards achieving our objectives efficiently.",
+      isOutgoing: true,
+      time: "9:41 AM",
+      sender: "Mentor",
+    },
   ]);
+  const [newMessage, setNewMessage] = useState("");
+  const flatListRef = useRef(null);
 
-  const handleSend = () => {
-    if (message.trim()) {
+  const handleSendMessage = () => {
+    if (newMessage.trim() !== "") {
+      const now = new Date();
+      const time = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       setMessages([
         ...messages,
-        { id: messages.length + 1, text: message, sender: "student" },
+        { text: newMessage, isOutgoing: true, time, sender: "You" },
       ]);
-      setMessage("");
+      setNewMessage("");
     }
   };
 
   return (
-    <View className="flex-1">
-      <ScrollView className="flex-1 p-4">
-        {messages.map((msg) => (
-          <View
-            key={msg.id}
-            className={`${
-              msg.sender === "student" ? "self-end" : "self-start"
-            } p-3 rounded-2xl max-w-[80%] mb-3`}
-            style={{
-              backgroundColor: msg.sender === "student" ? colors.primary : "#E8E8E8",
-            }}
-          >
-            <Text
-              className={`${
-                msg.sender === "student" ? "text-white" : "text-black"
-              } font-mada`}
+    <SafeAreaView className="flex-1 bg-white pb-20 w-full">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-1 py-10 w-full"
+      >
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View
+              className={`flex-row w-full items-center ${
+                item.isOutgoing ? "justify-end" : "justify-start"
+              } mb-4 px-4`}
             >
-              {msg.text}
-            </Text>
-          </View>
-        ))}
-      </ScrollView>
-      
-      <View className="flex-row p-4 border-t border-inputBorder bg-white">
-        <TextInput
-          value={message}
-          onChangeText={setMessage}
-          placeholder="Type a message..."
-          className="flex-1 border border-inputBorder rounded-full px-4 py-2 mr-2 font-mada"
+              {!item.isOutgoing && (
+                <View className="w-9 h-9 rounded-full bg-gray-300 mr-2 items-center justify-center">
+                  <Text className="text-white font-bold text-base">
+                    {item.sender[0].toUpperCase()}
+                  </Text>
+                </View>
+              )}
+              <View
+                className={`rounded-lg p-3 max-w-[70%] ${
+                  item.isOutgoing ? "bg-primary" : "bg-gray-200"
+                }`}
+              >
+                <Text
+                  className={`${item.isOutgoing ? "text-white" : "text-black"}`}
+                >
+                  {item.text}
+                </Text>
+                <Text
+                  className={`text-xs mt-1 ${
+                    item.isOutgoing ? "text-white opacity-80" : "text-gray-500"
+                  }`}
+                >
+                  {item.time}
+                </Text>
+              </View>
+              {item.isOutgoing && (
+                <View className="w-9 h-9 rounded-full bg-gray-300 ml-2 items-center justify-center">
+                  <Text className="text-white font-bold">
+                    {item.sender[0].toUpperCase()}
+                  </Text>
+                </View>
+              )}
+            </View>
+          )}
         />
-        <TouchableOpacity
-          onPress={handleSend}
-          className="bg-primary rounded-full p-2.5 justify-center items-center"
-        >
-          <Text className="text-white font-mada-semibold">Send</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+
+        <View className="flex-row items-center px-4 py-3 border-t border-gray-200 absolute bottom-0 left-0 right-0 bg-white">
+          <TextInput
+            className="flex-1 h-12 bg-gray-100 rounded-full px-4 mr-3"
+            value={newMessage}
+            onChangeText={setNewMessage}
+            placeholder="Type a message..."
+            returnKeyType="send"
+            onSubmitEditing={handleSendMessage}
+          />
+          <TouchableOpacity
+            className={`p-3 rounded-full ${newMessage.trim() ? "bg-primary" : "bg-gray-300"}`}
+            onPress={handleSendMessage}
+            disabled={!newMessage.trim()}
+          >
+            <Ionicons
+              name="send"
+              size={24}
+              color={newMessage.trim() ? "white" : "#999"}
+            />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
-export default Chat;
-
-
+export default ChatScreen;

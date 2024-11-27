@@ -17,7 +17,6 @@ export const useGetPlanner = (id: string) => {
         const responseData: DataProps = res.data;
         return responseData;
       } catch (error) {
-        console.error("Error fetching planner data");
         if (axios.isAxiosError(error)) {
           throw new Error(`${error.response?.data.message}`);
         } else {

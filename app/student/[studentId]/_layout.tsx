@@ -20,17 +20,16 @@ const TabsLayout = ({ navigation }: any) => {
         <Tabs.Screen
           key={item.name}
           name={item.name}
-        
           options={{
             // title:
             //   item.name === "dashboard"
             //     ? `${data?.student?.firstname}`
             //     : item.title,
-
+            headerTitle: item.title,
             title: data?.student?.firstname
               ? `${data.student.firstname}`
               : "Loading...",
-            
+
             headerShadowVisible: false,
             headerTitleStyle: {
               fontSize: 25,

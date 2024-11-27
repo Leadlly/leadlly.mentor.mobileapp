@@ -185,7 +185,6 @@ export const useGetAllocatedStudents = (_id?: string) => {
         const responseData = res.data;
         return responseData;
       } catch (error) {
-        console.log("here in error");
         if (axios.isAxiosError(error)) {
           throw new Error(`${error.response?.data.message}`);
         } else {
@@ -239,6 +238,29 @@ export const useStudentPersonalInfo = () => {
           throw new Error(
             "An unknown error while saving user's initial data!!"
           );
+        }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user"],
+      });
+    },
+  });
+};
+export const useMentorPersonalInfo = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: any) => {
+      try {
+        const res = await axiosClient.post("/api/user/info/save", data);
+        return res.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw new Error(`${error.response?.data.message}`);
+        } else {
+          throw new Error("An unknown error occurred while saving mentor info");
         }
       }
     },
