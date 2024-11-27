@@ -16,7 +16,7 @@ import TrackerIcon from "../icons/TrackerIcon";
 import ErrorBookIcon from "../icons/ErrorBookIcon";
 import { colors } from "../../constants/constants";
 import { useAppSelector } from "../../services/redux/hooks";
-
+import ChatIcon from "../icons/ChatIcon";
 
 const StudentTabBar = ({
   state,
@@ -43,6 +43,7 @@ const StudentTabBar = ({
     if (["_sitemap", "+not-found"].includes(item.name)) return null;
 
     const isFocused = state.index === index;
+    
 
     const onPress = () => {
       const event = navigation.emit({
@@ -55,9 +56,8 @@ const StudentTabBar = ({
         // Pass the studentId when navigating
         navigation.navigate(item.name, {
           ...item.params,
-          studentId: studentId // Ensure studentId is passed
+          studentId: studentId, // Ensure studentId is passed
         });
-
       }
 
       const firstVisibleItem = visibleItems[0]?.index;
@@ -95,7 +95,7 @@ const StudentTabBar = ({
       planner: (props: SvgProps) => <PlannerIcon {...props} />,
       tracker: (props: SvgProps) => <TrackerIcon {...props} />,
 
-      //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
+      "(chats)": (props: SvgProps) => <ChatIcon {...props} />,
       //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
       errorbook: (props: SvgProps) => <ErrorBookIcon {...props} />,
     };
