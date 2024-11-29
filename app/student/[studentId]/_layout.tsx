@@ -25,10 +25,11 @@ const TabsLayout = ({ navigation }: any) => {
             //   item.name === "dashboard"
             //     ? `${data?.student?.firstname}`
             //     : item.title,
-
+            headerTitle: item.title,
             title: data?.student?.firstname
               ? `${data.student.firstname}`
               : "Loading...",
+
             headerShadowVisible: false,
             headerTitleStyle: {
               fontSize: 25,

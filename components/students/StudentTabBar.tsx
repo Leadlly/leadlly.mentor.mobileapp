@@ -16,7 +16,7 @@ import TrackerIcon from "../icons/TrackerIcon";
 import ErrorBookIcon from "../icons/ErrorBookIcon";
 import { colors } from "../../constants/constants";
 import { useAppSelector } from "../../services/redux/hooks";
-
+import ChatIcon from "../icons/ChatIcon";
 
 const StudentTabBar = ({
   state,
@@ -38,7 +38,10 @@ const StudentTabBar = ({
     index,
   }: ListRenderItemInfo<(typeof state.routes)[0]>) => {
     const { options } = descriptors[item.key];
-    const label = item.name.charAt(0).toUpperCase() + item.name.slice(1);
+    const label =
+      options.headerTitle !== undefined
+        ? options.headerTitle
+        : item.name.charAt(0).toUpperCase() + item.name.slice(1);
 
     if (["_sitemap", "+not-found"].includes(item.name)) return null;
 
@@ -55,9 +58,8 @@ const StudentTabBar = ({
         // Pass the studentId when navigating
         navigation.navigate(item.name, {
           ...item.params,
-          studentId: studentId // Ensure studentId is passed
+          studentId: studentId, // Ensure studentId is passed
         });
-
       }
 
       const firstVisibleItem = visibleItems[0]?.index;
@@ -95,7 +97,7 @@ const StudentTabBar = ({
       planner: (props: SvgProps) => <PlannerIcon {...props} />,
       tracker: (props: SvgProps) => <TrackerIcon {...props} />,
 
-      //   "(chat)": (props: SvgProps) => <ChatIcon {...props} />,
+      "(chats)": (props: SvgProps) => <ChatIcon {...props} />,
       //   "(quizzes)": (props: SvgProps) => <QuizzesIcon {...props} />,
       errorbook: (props: SvgProps) => <ErrorBookIcon {...props} />,
     };

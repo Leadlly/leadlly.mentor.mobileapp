@@ -26,8 +26,6 @@ export const WeeklyMood = ({ mood }: MoodData) => {
   };
 
   const { startDate, endDate } = getWeekDates();
-  console.log(mood);
-
   return (
     <View className="p-1 bg-white rounded-lg">
       <View className="flex text-[16px] mb-[28px] font-normal text-black flex-row justify-center items-center ">

@@ -10,8 +10,8 @@ export const colors = Object.freeze({
   leadllyRed: "#0fd679",
   leadllyCyan: "#72EFDD",
   leadllyChartYellow: "#FFDA57",
-  white: "#FFFFFF",  // Add this line
-  tabItemGrayLight: "#b3b3b3",  // Lighter version of tabItemG
+  white: "#FFFFFF", // Add this line
+  tabItemGrayLight: "#b3b3b3", // Lighter version of tabItemG
 });
 
 export const tabBarItems = [
@@ -22,7 +22,7 @@ export const tabBarItems = [
   {
     name: "community",
     title: "Community",
-  }
+  },
 ];
 
 export const studentTabBarItems = [
@@ -38,10 +38,10 @@ export const studentTabBarItems = [
     name: "tracker",
     title: "Tracker",
   },
-  // {
-  //   name: "(chat)",
-  //   title: "Chat",
-  // },
+  {
+    name: "(chats)",
+    title: "Chats",
+  },
   // {
   //   name: "(quizzes)",
   //   title: "Quizzes",

@@ -1,37 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   View,
   Text,
   ScrollView,
   TextInput,
-  Image,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
 import { useGetAllocatedStudents } from "@/services/queries/userQuery";
-import { StudentDataProps } from "@/types/type";
 import StudentCard from "@/components/dashboardComponents/StudentCard";
 import FilterModal from "@/components/dashboardComponents/FilterModal";
 import Feather from "@expo/vector-icons/Feather";
-import { formatDate } from "@/helpers/utils";
+import { MaterialIcons } from "@expo/vector-icons";
 import StudentCardLoader from "@/components/LoadingComponents/StudentCardLoader";
+import NoDataFoundLottie from "@/components/shared/NoDataFoundLottie";
+import BottomSheet from "@/components/shared/BottomSheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import ScheduleMeetingForm from "@/components/MeetingComponents/ScheduleMeetingForm";
+import { colors } from "@/constants/constants";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("All");
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
 
-  const { data, isError, isSuccess, error, isLoading } =
-    useGetAllocatedStudents();
+  const { data, isError, isLoading } = useGetAllocatedStudents();
   const [loading, setLoading] = useState(false);
-
 
   // const [students, setStudents] = useState<StudentDataProps[]>([]);
   // useEffect(() => {
   //   setLoading(true);
   //   if (isSuccess && data?.students) {
-  //     // setStudents(data.students);
+  // setStudents(data.students);
 
   //     setStudents(
   //       data.students.sort((a: StudentDataProps, b: StudentDataProps) => {
@@ -54,7 +55,34 @@ const Dashboard = () => {
   //   setLoading(false);
   // }, [data, isSuccess]);
 
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleClose = () => {
+    bottomSheetModalRef.current?.dismiss();
+  };
+
+  const toggleSelectMode = () => {
+    setSelectMode(!selectMode);
+    setSelectedStudents([]);
+  };
+
+  const toggleStudentSelection = (studentId: string) => {
+    if (selectedStudents.includes(studentId)) {
+      const newSelectedStudents = selectedStudents.filter(
+        (id) => id !== studentId
+      );
+      setSelectedStudents(newSelectedStudents);
+      if (newSelectedStudents.length === 0) {
+        setSelectMode(false);
+      }
+    } else {
+      setSelectedStudents([...selectedStudents, studentId]);
+    }
+  };
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
       {/* Search Bar */}
@@ -85,11 +113,61 @@ const Dashboard = () => {
 
       {/* Students List */}
       <View className="flex-1 px-4 ">
-        <View className="flex-row justify-between items-center mb-[12px] mt-[16px]">
-          <Text className="text-lg font-semibold mb-2">All Students</Text>
-          <Text className="text-[16px] font-medium text-[#9654F4] mb-2">
-            See All
-          </Text>
+        <View className="flex-row justify-between items-center mb-[12px] mt-[16px] h-10">
+          {selectMode ? (
+            <View style={{ width: '100%' }}>
+              <View className="flex-row gap-3">
+                <TouchableOpacity
+                  className={`${selectedStudents.length > 0 ? 'bg-primary/10 border border-primary' : 'bg-gray-300 border border-transparent'} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
+                  onPress={handlePresentModalPress}
+                  disabled={selectedStudents.length === 0}
+                >
+                  <MaterialIcons
+                    name="calendar-today"
+                    size={16}
+                    color={selectedStudents.length > 0 ? colors.primary : "gray"}
+                  />
+                  <Text className={`${selectedStudents.length > 0 ? 'text-primary' : 'text-gray-500'} text-xs ml-1 font-mada-semibold`}>Schedule</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className={`${selectedStudents.length < data.students.length ? 'bg-primary' : 'bg-gray-300'} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
+                  onPress={() => setSelectedStudents(data.students.map((s: any) => s._id))}
+                  disabled={selectedStudents.length === data.students.length}
+                >
+                  <Feather name="check-square" size={16} color={selectedStudents.length < data.students.length ? "white" : "gray"} />
+                  <Text className={`${selectedStudents.length < data.students.length ? 'text-white' : 'text-gray-500'} text-xs ml-1`}>All</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className={`${selectedStudents.length > 0 ? 'bg-primary' : 'bg-gray-300'} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
+                  onPress={() => setSelectedStudents([])}
+                  disabled={selectedStudents.length === 0}
+                >
+                  <Feather name="square" size={16} color={selectedStudents.length > 0 ? "white" : "gray"} />
+                  <Text className={`${selectedStudents.length > 0 ? 'text-white' : 'text-gray-500'} text-xs ml-1`}>None</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="bg-gray-200 px-3 py-2 rounded-md flex-1 items-center justify-center flex-row"
+                  onPress={toggleSelectMode}
+                >
+                  <Feather name="x" size={16} color="gray" />
+                  <Text className="text-gray-800 text-xs ml-1">Close</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <>
+              <Text className="text-lg font-semibold">All Students</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={toggleSelectMode}
+                className="bg-primary px-3 py-2 rounded-md  items-center justify-center flex-row"
+              >
+                <Text className="text-white font-medium text-xs">
+                  Select Students
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
         {isLoading || loading ? (
           <ScrollView className="w-full flex">
@@ -97,16 +175,32 @@ const Dashboard = () => {
               <StudentCardLoader key={index} />
             ))}
           </ScrollView>
+        ) : isError || !data?.students || data.students.length === 0 ? (
+          <NoDataFoundLottie
+            message={isError ? "Error fetching students" : "No students found"}
+          />
         ) : (
           <FlatList
             data={data.students}
             keyExtractor={(item) => item._id}
             className="mb-[50px] "
-            renderItem={({ item }) => <StudentCard studentInfo={item} />}
+            renderItem={({ item }) => (
+              <StudentCard
+                studentInfo={item}
+                selectMode={selectMode}
+                isSelected={selectedStudents.includes(item._id)}
+                toggleSelectMode={toggleSelectMode}
+                onSelect={() => toggleStudentSelection(item._id)}
+              />
+            )}
             showsVerticalScrollIndicator={false}
           />
         )}
       </View>
+
+      <BottomSheet ref={bottomSheetModalRef} snapPoints={["70%"]}>
+        <ScheduleMeetingForm studentIds={selectedStudents} onClose={handleClose} />
+      </BottomSheet>
     </SafeAreaView>
   );
 };
