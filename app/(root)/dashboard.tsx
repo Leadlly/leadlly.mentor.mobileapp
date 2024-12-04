@@ -19,6 +19,7 @@ import BottomSheet from "@/components/shared/BottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import ScheduleMeetingForm from "@/components/MeetingComponents/ScheduleMeetingForm";
 import { colors } from "@/constants/constants";
+import NotificationForm from "@/components/shared/NotificationForm";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("All");
@@ -28,41 +29,20 @@ const Dashboard = () => {
   const { data, isError, isLoading } = useGetAllocatedStudents();
   const [loading, setLoading] = useState(false);
 
-  // const [students, setStudents] = useState<StudentDataProps[]>([]);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   if (isSuccess && data?.students) {
-  // setStudents(data.students);
-
-  //     setStudents(
-  //       data.students.sort((a: StudentDataProps, b: StudentDataProps) => {
-  //         const aEfficiency =
-  //           a.details.report.dailyReport.date &&
-  //           formatDate(new Date(a.details.report.dailyReport.date)) ===
-  //             formatDate(new Date(Date.now()))
-  //             ? a.details.report.dailyReport.overall
-  //             : 0;
-  //         const bEfficiency =
-  //           b.details.report.dailyReport.date &&
-  //           formatDate(new Date(b.details.report.dailyReport.date)) ===
-  //             formatDate(new Date(Date.now()))
-  //             ? b.details.report.dailyReport.overall
-  //             : 0;
-  //         return bEfficiency - aEfficiency;
-  //       })
-  //     );
-  //   }
-  //   setLoading(false);
-  // }, [data, isSuccess]);
-
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const notificationBottomSheetRef = useRef<BottomSheetModal>(null);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
 
+  const handlePresentNotificationModal = useCallback(() => {
+    notificationBottomSheetRef.current?.present();
+  }, []);
+
   const handleClose = () => {
     bottomSheetModalRef.current?.dismiss();
+    notificationBottomSheetRef.current?.dismiss();
   };
 
   const toggleSelectMode = () => {
@@ -83,6 +63,7 @@ const Dashboard = () => {
       setSelectedStudents([...selectedStudents, studentId]);
     }
   };
+
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
       {/* Search Bar */}
@@ -115,35 +96,77 @@ const Dashboard = () => {
       <View className="flex-1 px-4 ">
         <View className="flex-row justify-between items-center mb-[12px] mt-[16px] h-10">
           {selectMode ? (
-            <View style={{ width: '100%' }}>
+            <View style={{ width: "100%" }}>
               <View className="flex-row gap-3">
                 <TouchableOpacity
-                  className={`${selectedStudents.length > 0 ? 'bg-primary/10 border border-primary' : 'bg-gray-300 border border-transparent'} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
+                  className={`${selectedStudents.length > 0 ? "bg-primary/10 border border-primary" : "bg-gray-300 border border-transparent"} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
                   onPress={handlePresentModalPress}
                   disabled={selectedStudents.length === 0}
                 >
                   <MaterialIcons
                     name="calendar-today"
                     size={16}
-                    color={selectedStudents.length > 0 ? colors.primary : "gray"}
+                    color={
+                      selectedStudents.length > 0 ? colors.primary : "gray"
+                    }
                   />
-                  <Text className={`${selectedStudents.length > 0 ? 'text-primary' : 'text-gray-500'} text-xs ml-1 font-mada-semibold`}>Schedule</Text>
+                  <Text
+                    className={`${selectedStudents.length > 0 ? "text-primary" : "text-gray-500"} text-xs ml-1 font-mada-semibold`}
+                  >
+                    Schedule
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className={`${selectedStudents.length < data.students.length ? 'bg-primary' : 'bg-gray-300'} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
-                  onPress={() => setSelectedStudents(data.students.map((s: any) => s._id))}
-                  disabled={selectedStudents.length === data.students.length}
-                >
-                  <Feather name="check-square" size={16} color={selectedStudents.length < data.students.length ? "white" : "gray"} />
-                  <Text className={`${selectedStudents.length < data.students.length ? 'text-white' : 'text-gray-500'} text-xs ml-1`}>All</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className={`${selectedStudents.length > 0 ? 'bg-primary' : 'bg-gray-300'} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
-                  onPress={() => setSelectedStudents([])}
+                  className={`${selectedStudents.length > 0 ? "bg-primary/10 border border-primary" : "bg-gray-300 border border-transparent"} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
+                  onPress={handlePresentNotificationModal}
                   disabled={selectedStudents.length === 0}
                 >
-                  <Feather name="square" size={16} color={selectedStudents.length > 0 ? "white" : "gray"} />
-                  <Text className={`${selectedStudents.length > 0 ? 'text-white' : 'text-gray-500'} text-xs ml-1`}>None</Text>
+                  <MaterialIcons
+                    name="notifications"
+                    size={16}
+                    color={
+                      selectedStudents.length > 0 ? colors.primary : "gray"
+                    }
+                  />
+                  <Text
+                    className={`${selectedStudents.length > 0 ? "text-primary" : "text-gray-500"} text-xs ml-1 font-mada-semibold`}
+                  >
+                    Notify
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className={`${selectedStudents.length === 0 || selectedStudents.length === data?.students?.length ? "bg-gray-200" : "bg-blue-500"} px-3 py-2 rounded-md flex-1 items-center justify-center flex-row`}
+                  onPress={() => {
+                    if (selectedStudents.length === data?.students?.length) {
+                      setSelectedStudents([]);
+                    } else {
+                      setSelectedStudents(
+                        data?.students?.map((s: any) => s._id) || []
+                      );
+                    }
+                  }}
+                >
+                  <Feather
+                    name={
+                      selectedStudents.length === data?.students?.length
+                        ? "square"
+                        : "check-square"
+                    }
+                    size={16}
+                    color={
+                      selectedStudents.length === 0 ||
+                      selectedStudents.length === data?.students?.length
+                        ? "gray"
+                        : "white"
+                    }
+                  />
+                  <Text
+                    className={`${selectedStudents.length === 0 || selectedStudents.length === data?.students?.length ? "text-gray-600" : "text-white"} text-xs ml-1 font-medium`}
+                  >
+                    {selectedStudents.length === data?.students?.length
+                      ? "None"
+                      : "All"}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="bg-gray-200 px-3 py-2 rounded-md flex-1 items-center justify-center flex-row"
@@ -198,8 +221,14 @@ const Dashboard = () => {
         )}
       </View>
 
-      <BottomSheet ref={bottomSheetModalRef} snapPoints={["70%"]}>
-        <ScheduleMeetingForm studentIds={selectedStudents} onClose={handleClose} />
+      <BottomSheet ref={bottomSheetModalRef} snapPoints={["50%"]}>
+        <ScheduleMeetingForm
+          studentIds={selectedStudents}
+          onClose={handleClose}
+        />
+      </BottomSheet>
+      <BottomSheet ref={notificationBottomSheetRef}>
+        <NotificationForm studentIds={selectedStudents} onClose={handleClose} />
       </BottomSheet>
     </SafeAreaView>
   );

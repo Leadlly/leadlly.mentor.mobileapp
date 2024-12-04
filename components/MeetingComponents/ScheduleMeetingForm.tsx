@@ -25,7 +25,10 @@ interface ScheduleMeetingFormProps {
   onClose: () => void;
 }
 
-const ScheduleMeetingForm = ({ studentIds, onClose }: ScheduleMeetingFormProps) => {
+const ScheduleMeetingForm = ({
+  studentIds,
+  onClose,
+}: ScheduleMeetingFormProps) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [isTimeModalVisible, setIsTimeModalVisible] = useState(false);
   const [openGMeetLinkInputModal, setOpenGMeetLinkInputModal] = useState(false);
@@ -246,4 +249,4 @@ const ScheduleMeetingForm = ({ studentIds, onClose }: ScheduleMeetingFormProps) 
   );
 };
 
-export default ScheduleMeetingForm; 
+export default ScheduleMeetingForm;
