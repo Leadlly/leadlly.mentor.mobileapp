@@ -1,6 +1,6 @@
 export default {
   expo: {
-    owner: "leadlly-edusolustions",
+    owner: "leadlly_edusolutions_private_limited",
     name: "Leadlly Mentor",
     slug: "leadlly-mentor",
     version: "1.0.1",
@@ -83,7 +83,7 @@ export default {
         origin: false,
       },
       eas: {
-        projectId: "4318cc88-87a0-4a35-ac63-56855db50583",
+        projectId: "076ba93d-87d8-499a-8b92-d792a52dd831",
       },
     },
   },

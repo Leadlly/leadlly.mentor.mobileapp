@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,6 +20,9 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import ScheduleMeetingForm from "@/components/MeetingComponents/ScheduleMeetingForm";
 import { colors } from "@/constants/constants";
 import NotificationForm from "@/components/shared/NotificationForm";
+import { registerForPushNotificationsAsync } from "@/helpers/registerForPushNotificationsAsync";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSavePushToken } from "@/services/queries/notificationQuery";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("All");
@@ -63,6 +66,22 @@ const Dashboard = () => {
       setSelectedStudents([...selectedStudents, studentId]);
     }
   };
+
+  const { mutateAsync: savePushToken } = useSavePushToken();
+
+  useEffect(() => {
+    const getPushToken = async () => {
+      const pushTokenString = await registerForPushNotificationsAsync();
+      const storedPushToken = await AsyncStorage.getItem("mentorPushToken");
+
+      if (pushTokenString !== storedPushToken) {
+        await savePushToken({ pushToken: pushTokenString });
+        await AsyncStorage.setItem("mentorPushToken", pushTokenString);
+      }
+    };
+
+    getPushToken();
+  }, []);
 
   return (
     <SafeAreaView className="bg-[#FEFBFF] flex-1">
