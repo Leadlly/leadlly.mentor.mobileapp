@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "@/services/redux/store";
 import Toast from "react-native-toast-message";
 import AppWrapper from "@/components/AppWrapper";
+import NotificationHandler from "@/components/NotificationHandler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,6 +34,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
+        <NotificationHandler />
         <AppWrapper />
         <Toast />
       </QueryClientProvider>
