@@ -13,7 +13,10 @@ export const useSendNotification = () => {
 
   return useMutation({
     mutationFn: async (payload: SendNotificationPayload) => {
-      const response = await axiosClient.post("/api/notification/send", payload);
+      const response = await axiosClient.post(
+        "/api/notification/send",
+        payload
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -21,7 +24,9 @@ export const useSendNotification = () => {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        throw new Error(`Failed to send notification: ${error.response?.data.message || error.message}`);
+        throw new Error(
+          `Failed to send notification: ${error.response?.data.message || error.message}`
+        );
       } else {
         throw new Error("An unknown error occurred while sending notification");
       }
@@ -29,4 +34,23 @@ export const useSendNotification = () => {
   });
 };
 
+export const useSavePushToken = () => {
+  return useMutation({
+    mutationFn: async (data: { pushToken: string }) => {
+      try {
+        const res = await axiosClient.post(
+          "/api/notification/pushtoken/save",
+          data
+        );
 
+        return res.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw new Error(`${error.response?.data.message}`);
+        } else {
+          throw new Error("An unknown error while google signing in!!");
+        }
+      }
+    },
+  });
+};
