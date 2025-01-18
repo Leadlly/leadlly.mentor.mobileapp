@@ -258,3 +258,14 @@ export type TRevisionProps = {
   quizScores?: number[];
   weeklyTestScore?: number;
 };
+
+export type ChatMessage = {
+  message: string;
+  timestamp: string;
+  sendBy?: string;
+};
+
+export type ChatSection = {
+  title: string;
+  data: ChatMessage[];
+};

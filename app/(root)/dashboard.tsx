@@ -84,7 +84,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <SafeAreaView className="bg-[#FEFBFF] flex-1">
+    <View className="bg-[#FEFBFF] flex-1">
       {/* Search Bar */}
       <View className="px-3 pb-[10.6px] flex-row justify-between gap-[10px] items-center flexx">
         <View className="w-[85%] flex flex-row justify-between items-center bg-[#EFEFEFAB] px-4 py-2 rounded-[8px]">
@@ -249,7 +249,7 @@ const Dashboard = () => {
       <BottomSheet ref={notificationBottomSheetRef}>
         <NotificationForm studentIds={selectedStudents} onClose={handleClose} />
       </BottomSheet>
-    </SafeAreaView>
+    </View>
   );
 };
 

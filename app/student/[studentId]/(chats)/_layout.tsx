@@ -4,7 +4,10 @@ import { useLocalSearchParams } from "expo-router";
 
 const ChatLayout = () => {
   // Retrieve the studentId from search parameters
-  const { studentId } = useLocalSearchParams();
+  const { studentId, student } = useLocalSearchParams<{
+    studentId: string;
+    student: string;
+  }>();
 
   return (
     <MaterialTobTabs
@@ -31,11 +34,10 @@ const ChatLayout = () => {
       {/* Chat Screen Tab */}
       <MaterialTobTabs.Screen
         key={`chat-${studentId}`}
-        
         name="chat"
         options={{ title: "Chat" }}
-        initialParams={{ studentId }}
-      />  
+        initialParams={{ studentId, student }}
+      />
 
       {/* Meetings Screen Tab */}
       <MaterialTobTabs.Screen

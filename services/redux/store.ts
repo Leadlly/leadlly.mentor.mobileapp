@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "@/services/redux/slices/userSlice";
+import unreadMessagesReducer from "@/services/redux/slices/unreadMessageSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    unreadMessages: unreadMessagesReducer,
   },
 });
 
