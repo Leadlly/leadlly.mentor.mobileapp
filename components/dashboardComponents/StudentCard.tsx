@@ -7,7 +7,14 @@ import { getBackgroundColor } from "@/constants/efficiency";
 import { formatDate } from "@/helpers/utils";
 import * as Progress from "react-native-progress";
 import { AntDesign } from "@expo/vector-icons";
-import Animated, { Easing, FadeIn, FadeOut, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  ZoomIn,
+  ZoomOut,
+} from "react-native-reanimated";
+import { useSocket } from "@/contexts/SocketProvider";
 
 const StudentCard = ({
   studentInfo,
@@ -22,6 +29,7 @@ const StudentCard = ({
   onSelect: () => void;
   toggleSelectMode: () => void;
 }) => {
+  const { socket } = useSocket();
   const router = useRouter();
   const studentCurrentMood = studentInfo?.details?.mood;
   const today = new Date().toISOString().split("T")[0];
@@ -58,6 +66,8 @@ const StudentCard = ({
     if (selectMode) {
       onSelect();
     } else {
+      if (socket)
+        socket.emit("mentor_joining_room", { userEmail: studentInfo.email });
       router.push(`/student/${String(studentInfo._id)}/dashboard`);
     }
   };
@@ -108,7 +118,7 @@ const StudentCard = ({
               color="#339900"
               borderWidth={0}
               unfilledColor="#D3D3D3"
-              progress={studentInfo.details.level.number * 0.3 ?? 0}
+              progress={studentInfo.details.level.number * 0.3 || 0}
               width={130}
             />
           </View>

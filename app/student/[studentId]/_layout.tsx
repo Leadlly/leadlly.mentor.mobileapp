@@ -1,18 +1,54 @@
 import { Link, Tabs } from "expo-router";
-import { studentTabBarItems } from "../../../constants/constants";
+import { colors, studentTabBarItems } from "../../../constants/constants";
 import StudentTabBar from "@/components/students/StudentTabBar";
 import { useLocalSearchParams } from "expo-router";
-import { TouchableOpacity } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import NotificationAndUserProfileButton from "@/components/NotificationAndUserProfileButton";
 import { useGetAllocatedStudents } from "@/services/queries/userQuery";
+import { useGetUnreadNotifications } from "@/services/queries/chatQuery";
+import { useAppDispatch, useAppSelector } from "@/services/redux/hooks";
+import { useEffect } from "react";
+import { unreadMessages } from "@/services/redux/slices/unreadMessageSlice";
 
 const TabsLayout = ({ navigation }: any) => {
   const { studentId } = useLocalSearchParams();
+  const mentor = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
 
   const student = Array.isArray(studentId) ? studentId[0] : studentId;
 
-  const { data, isError, isSuccess, error } = useGetAllocatedStudents(student);
+  const { data, isLoading } = useGetAllocatedStudents(student);
+
+  const { data: chatNotificationsData, isLoading: chatMessagesLoading } =
+    useGetUnreadNotifications({
+      receiver: mentor?._id,
+      room: data?.student?.email,
+    });
+
+  useEffect(() => {
+    if (chatMessagesLoading) return;
+
+    if (
+      chatNotificationsData &&
+      chatNotificationsData.unreadCount &&
+      chatNotificationsData.unreadCount.length > 0
+    ) {
+      const unreadMessagesForUser = chatNotificationsData.unreadCount.find(
+        (message: { room: string; messageCount: number }) =>
+          message.room === data?.student?.email
+      );
+      dispatch(unreadMessages(unreadMessagesForUser?.messageCount));
+    }
+  }, [chatNotificationsData, chatMessagesLoading]);
+
+  if (isLoading || chatMessagesLoading) {
+    return (
+      <View className="flex-1 bg-white items-center justify-center">
+        <ActivityIndicator color={colors.primary} size={"small"} />
+      </View>
+    );
+  }
 
   return (
     <Tabs tabBar={(props) => <StudentTabBar {...props} />}>
@@ -50,6 +86,11 @@ const TabsLayout = ({ navigation }: any) => {
               return null;
             },
           }}
+          initialParams={
+            item.name === "(chats)"
+              ? { student: JSON.stringify(data?.student) }
+              : {}
+          }
         />
       ))}
     </Tabs>
