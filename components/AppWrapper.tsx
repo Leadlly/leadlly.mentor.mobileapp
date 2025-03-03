@@ -27,13 +27,13 @@ const AppWrapper = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(loadUser()); 
+    dispatch(loadUser());
   }, [dispatch]);
 
   if (!isConnected) {
     return <OfflineScreen setConnected={setConnected} />;
   }
-  
+
   return (
     <GestureHandlerRootView>
       <BottomSheetModalProvider>
@@ -44,6 +44,10 @@ const AppWrapper = () => {
             <Stack.Screen name="(root)" options={{ headerShown: false }} />
             <Stack.Screen
               name="student/[studentId]"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="teachers/[teacherId]"
               options={{ headerShown: false }}
             />
           </Stack>
